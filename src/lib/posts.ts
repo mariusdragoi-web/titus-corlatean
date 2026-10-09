@@ -13,6 +13,8 @@ export interface Post {
   title: string;
   date: string;
   image: string | null;
+  // Coperta din pagina articolului, când trebuie să difere de imaginea din card (cardul și previzualizarea la distribuire rămân pe `image`)
+  cover?: string;
   description: string;
   summary: string;
   html: string;

@@ -16,7 +16,8 @@ interface Props { post: Post; newer: Post | null; older: Post | null }
 const { post, newer, older } = Astro.props;
 
 // Coperta apare doar când articolul nu are deja fotografii în text (altfel ar fi dublată)
-const showHero = Boolean(post.image) && !post.html.includes('<img');
+const cover = post.cover ?? post.image;
+const showHero = Boolean(cover) && !post.html.includes('<img');
 const more = posts.filter((p) => p.slug !== post.slug).slice(0, 3);
 
 const jsonLd = {
@@ -43,7 +44,7 @@ const jsonLd = {
 
     {showHero && (
       <figure class="post-cover wrap">
-        <img src={post.image} alt="" fetchpriority="high" />
+        <img src={cover} alt="" fetchpriority="high" />
       </figure>
     )}
 
