@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Timeline from '../components/Timeline.astro';
 import CareerNext from '../components/CareerNext.astro';
+import { profilePageLd } from '../lib/person';
 
 const path = [
   {
@@ -36,8 +37,10 @@ const path = [
     text: 'Primii ani din cariera profesională în cadrul Ministerului de Externe.',
   },
 ];
+const jsonLd = profilePageLd('/ministerul-justitiei-inceputurile-carierei', 'Titus Corlățean: activitatea guvernamentală și Ministerul Justiției', ['guvern']);
 ---
 <Base title="Ministerul Justiției și începuturile carierei lui Titus Corlățean" description="Titus Corlățean, om politic român, a coordonat eforturile de aderare la UE și NATO din poziția de ministru al Justiției." image="/images/foto-scaun.webp">
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   <PageHero eyebrow="Carieră" image="/images/foto-scaun.webp" imageAlt="Titus Corlățean — fotografie oficială" position="50% 18%">
     <Fragment slot="title">Activitatea guvernamentală și Ministerul Justiției</Fragment>
     <p>În 2001, ca consilier pe politică externă al premierului Adrian Năstase, am contribuit la pregătirea și finalizarea negocierilor pentru aderarea României la UE și NATO — un moment-cheie în politica externă și de securitate a țării. În anii următori, ca secretar de stat pentru românii de pretutindeni, am promovat inițiative esențiale pentru sprijinirea identității naționale în comunitățile românești din jurul granițelor și din diaspora.</p>

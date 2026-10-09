@@ -2,8 +2,11 @@
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import PageHero from '../components/PageHero.astro';
+import { profilePageLd } from '../lib/person';
+const jsonLd = profilePageLd('/povestea-mea', 'Povestea lui Titus Corlățean');
 ---
 <Base title="Povestea mea" description="Titus Corlățean, senator PSD, povestește despre formarea sa ca profesionist în diplomație și politică externă." image="/images/foto-portret-negru.webp">
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
   <PageHero eyebrow="Titus Corlățean" image="/images/foto-portret-negru.webp" imageAlt="Titus Corlățean, portret oficial" position="50% 20%">
     <Fragment slot="title">Povestea mea</Fragment>

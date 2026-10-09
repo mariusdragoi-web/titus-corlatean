@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Timeline from '../components/Timeline.astro';
 import CareerNext from '../components/CareerNext.astro';
+import { profilePageLd } from '../lib/person';
 
 // Actualizat 9 octombrie 2026. Surse: senat.ro (fișele pe legislaturi 2008–2028) și cdep.ro (mandatul de deputat 2004–2008).
 // Totaluri adunate pe toate mandatele: Senat 227 inițiative / 94 legi (numărate nominal, „A devenit Legea”) / 23 moțiuni / 991 luări de cuvânt
@@ -73,8 +74,10 @@ const laws = [
     ],
   },
 ];
+const jsonLd = profilePageLd('/parlamentul-romaniei', 'Titus Corlățean în Parlamentul României', ['parlament']);
 ---
 <Base title="Parlamentul României" description="Activitatea parlamentară a senatorului Titus Corlățean reflectă implicarea în comisii și promovarea intereselor României.">
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   <PageHero eyebrow="Carieră" variant="cover" image="/images/parlamentul-romaniei.webp" position="50% 40%">
     <Fragment slot="title">Parlamentul României</Fragment>
     <p>Activitatea mea în Parlamentul României nu se rezumă doar la numere și statistici. Cele mai importante aspecte legate de activitatea mea sunt calitatea legilor adoptate și reprezentarea intereselor României prin implicarea mea în comisiile de specialitate.</p>

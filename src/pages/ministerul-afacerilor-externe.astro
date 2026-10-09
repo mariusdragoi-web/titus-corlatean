@@ -2,8 +2,11 @@
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import CareerNext from '../components/CareerNext.astro';
+import { profilePageLd } from '../lib/person';
+const jsonLd = profilePageLd('/ministerul-afacerilor-externe', 'Titus Corlățean, ministrul Afacerilor Externe (2012–2014)', ['mae']);
 ---
 <Base title="Ministerul Afacerilor Externe" description="Ca ministru de Externe, Titus Corlățean a întărit poziția României în NATO, UE și a sprijinit Moldova și Ucraina." image="/images/titus-onu.webp">
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   <PageHero eyebrow="Carieră" image="/images/titus-onu.webp" imageAlt="Titus Corlățean la tribuna ONU" position="50% 30%">
     <Fragment slot="title">Ministerul Afacerilor Externe</Fragment>
     <p>Ca <strong>Ministru de Externe</strong> (2012–2014), am consolidat poziția României în NATO și UE, susținând ferm integritatea Ucrainei în contextul crizei din 2014 și promovând răspunsuri coordonate internaționale. Am sprijinit parcursul european al Republicii Moldova și am întărit Parteneriatul Strategic cu SUA, inclusiv în domeniile militar, economic și energetic.</p>

@@ -4,6 +4,7 @@ import PageHero from '../components/PageHero.astro';
 import Timeline from '../components/Timeline.astro';
 import CareerNext from '../components/CareerNext.astro';
 import Icon from '../components/Icon.astro';
+import { profilePageLd } from '../lib/person';
 
 // Actualizat 9 octombrie 2026, numărat din listele de activitate de pe pace.coe.int/en/members/6456/corlatean
 const stats = [
@@ -40,8 +41,10 @@ const debates = [
   { date: 'Aprilie 2015', title: 'Angajamentul reînnoit în lupta împotriva antisemitismului în Europa' },
   { date: 'Noiembrie 2011', title: 'Angajament pentru susținerea drepturilor omului și a luptei împotriva terorismului' },
 ];
+const jsonLd = profilePageLd('/consiliul-europei', 'Titus Corlățean la Consiliul Europei', ['coe']);
 ---
 <Base title="Consiliul Europei" description="Titus Corlățean apără drepturile românilor din diaspora în calitate de membru în Adunarea Consiliului Europei." image="/images/coe-plen-1.webp">
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   <PageHero eyebrow="Carieră" variant="cover" image="/images/coe-plen-1.webp" position="62% 30%">
     <Fragment slot="title">Adunarea Parlamentară a <strong>Consiliului Europei</strong></Fragment>
     <p>La Consiliul Europei, îmi continui angajamentul de a promova valorile democratice, de a combate corupția și de a proteja minoritățile, cu un accent deosebit pe românii din diasporă. Lupt pentru respectarea drepturilor familiilor românești expuse abuzurilor în diverse state europene, pledând cu determinare pentru justiție și sprijin adecvat în fața provocărilor cu care se confruntă.</p>

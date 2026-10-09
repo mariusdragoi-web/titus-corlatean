@@ -54,24 +54,6 @@ document.addEventListener('click', (e) => {
   btn.replaceWith(iframe);
 });
 
-// Feed Facebook (Elfsight): scriptul se încarcă abia când secțiunea se apropie de ecran
-const feed = document.querySelector<HTMLElement>('[data-elfsight]');
-if (feed) {
-  const load = () => {
-    feed.innerHTML = `<div class="elfsight-app-${feed.dataset.elfsight}"></div>`;
-    const s = document.createElement('script');
-    s.src = 'https://static.elfsight.com/platform/platform.js';
-    s.async = true;
-    document.body.appendChild(s);
-  };
-  if ('IntersectionObserver' in window) {
-    const fio = new IntersectionObserver((entries) => {
-      if (entries.some((e) => e.isIntersecting)) { fio.disconnect(); load(); }
-    }, { rootMargin: '800px 0px' });
-    fio.observe(feed);
-  } else load();
-}
-
 // ---------------- Mobil: text pliat, acordeoane, liste scurte ----------------
 const mobile = window.matchMedia('(max-width: 760px)');
 

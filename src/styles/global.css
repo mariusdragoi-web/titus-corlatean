@@ -265,8 +265,6 @@ h3, h4 { font-family: var(--sans); font-weight: 900; line-height: 1.25; letter-s
 html.snap { scroll-snap-type: y proximity; }
 html.snap .snap { scroll-snap-align: start; }
 html.snap .section.snap { padding-top: clamp(2.4rem, 4.5vw, 4.2rem); }
-/* Secțiunile lungi (ex. feed-ul Facebook) nu se „agață” — doar au aliniere corectă la ancoră */
-html.snap #activitate.section { padding-top: clamp(2.4rem, 4.5vw, 4.2rem); }
 @media (prefers-reduced-motion: reduce) { html.snap { scroll-snap-type: none; } }
 /* Pe desktop, scroll-snap „proximity” trage pagina înapoi la secțiunea anterioară la fiecare pas de rotiță.
    Acolo alinierea o face site.ts, doar când oprirea e foarte aproape de începutul unei secțiuni. */

@@ -2,7 +2,8 @@
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import NewsletterSignup from '../components/NewsletterSignup.astro';
-import { SITE, SOCIAL, PROFILES, ELFSIGHT_FEED } from '../config';
+import { SITE } from '../config';
+import { personLd } from '../lib/person';
 
 const themes = [
   {
@@ -31,22 +32,7 @@ const jsonLd = {
       inLanguage: 'ro-RO',
       publisher: { '@id': `${SITE.url}/#person` },
     },
-    {
-      '@type': 'Person',
-      '@id': `${SITE.url}/#person`,
-      name: SITE.name,
-      url: SITE.url,
-      image: new URL('/images/portret-oficial-2.webp', SITE.url).href,
-      jobTitle: 'Senator al României',
-      description: 'Titus Corlățean, om politic român, senator PSD și fost ministru, apără valorile naționale și drepturile românilor.',
-      nationality: { '@type': 'Country', name: 'România' },
-      memberOf: [
-        { '@type': 'GovernmentOrganization', name: 'Senatul României', url: 'https://www.senat.ro' },
-        { '@type': 'PoliticalParty', name: 'Partidul Social Democrat' },
-      ],
-      email: `mailto:${SITE.email}`,
-      sameAs: [SOCIAL.facebook, SOCIAL.tiktok, SOCIAL.x, ...PROFILES],
-    },
+    personLd(),
   ],
 };
 
@@ -93,18 +79,6 @@ const jsonLd = {
   </section>
 
   <NewsletterSignup />
-
-  <!-- Activitate recentă: feed Facebook (Elfsight, ca pe site-ul vechi) -->
-  <section class="feed section tone" id="activitate">
-    <div class="wrap">
-      <div class="recent__head reveal">
-        <h2 class="h2 rule">Activitate recentă</h2>
-        <a href={SOCIAL.facebook} class="link-arrow" target="_blank" rel="noopener">Facebook <Icon name="external" /></a>
-      </div>
-      <div class="feed__box" data-elfsight={ELFSIGHT_FEED}></div>
-      <a href={SOCIAL.facebook} class="btn feed__more" target="_blank" rel="noopener">Vezi toate postările pe Facebook <Icon name="external" /></a>
-    </div>
-  </section>
 </Base>
 
 <style>
@@ -149,37 +123,6 @@ const jsonLd = {
   .theme__title { font-family: var(--display); font-weight: 800; font-size: clamp(1.5rem, 1.2rem + 1vw, 2.1rem); margin: 0; letter-spacing: -0.02em; line-height: 1.12; }
   .theme__text { grid-column: 2; margin: 0; color: var(--text-soft); font-size: 1.04rem; }
 
-  /* Activitate recentă (feed Facebook) */
-  .recent__head { display: flex; align-items: end; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 3rem; }
-  .recent__head .h2 { margin: 0; }
-  .feed__box { min-height: 420px; }
-  /* Widgetul Elfsight: lățimea paginii și culorile brandului */
-  .feed__box :global(.es-embed-root) { max-width: none !important; }
-  .feed__box :global(.es-text-shortener-control) { color: var(--red) !important; font-weight: 700; }
-  .feed__box :global(.es-load-more-button) {
-    background: var(--red) !important; color: #fff !important; border-radius: var(--r-sm) !important;
-    font-family: var(--display) !important; font-weight: 700 !important; padding-inline: 1.6rem !important;
-  }
-  .feed__box :global(.es-load-more-button *) { color: #fff !important; }
-  .feed__box :global(.es-load-more-button:hover) { background: var(--red-deep) !important; }
-  /* Grilă compactă în locul masonry-ului Elfsight: 2 rânduri, poze mici tăiate uniform; restul pe Facebook */
-  .feed__box { --feed-cols: 4; --feed-img: 150px; min-height: 0; }
-  .feed__box :global(.es-masonry-layout) {
-    display: grid !important; grid-template-columns: repeat(var(--feed-cols), minmax(0, 1fr)); gap: 16px;
-    height: auto !important; align-items: start;
-  }
-  .feed__box :global(.es-masonry-layout-item) { position: static !important; transform: none !important; width: auto !important; left: auto !important; top: auto !important; }
-  .feed__box :global(.es-masonry-layout-item:nth-child(n + 9)) { display: none !important; }
-  .feed__box :global(.es-media-container) { height: var(--feed-img) !important; overflow: hidden; }
-  .feed__box :global(.es-media-image-container) { height: 100% !important; }
-  .feed__box :global(.es-media-image) { width: 100% !important; height: 100% !important; object-fit: cover !important; }
-  .feed__box :global(.es-load-more-button-container) { display: none !important; }
-  .feed__more { display: none; margin-top: 1.6rem; }
-  @media (max-width: 1080px) {
-    .feed__box { --feed-cols: 3; --feed-img: 130px; }
-    .feed__box :global(.es-masonry-layout-item:nth-child(n + 7)) { display: none !important; }
-  }
-
   @media (min-width: 761px) and (max-width: 1080px) {
     .hero__photo { inset: 0 0 0 34%; }
     .hero__photo img { object-position: 60% 15%; }
@@ -213,28 +156,5 @@ const jsonLd = {
     .theme__title { font-size: 1.18rem; letter-spacing: -0.015em; }
     .theme__text { grid-column: 1 / -1; font-size: 0.98rem; margin-top: 0.8rem; color: var(--text); }
     .themes.section { padding-block: 2.6rem 3rem; }
-    .recent__head { margin-bottom: 2rem; }
-    /* Telefon: postările una sub alta — poză mică în stânga, numele, data, textul și reacțiile în dreapta */
-    .feed__box { --feed-cols: 1; }
-    .feed__box :global(.es-masonry-layout) { gap: 10px; }
-    .feed__box :global(.es-masonry-layout-item:nth-child(n + 5)) { display: none !important; }
-    .feed__box :global([class*='Post__PostRoot'] > div:not(.es-post-keyboard-open-control)) {
-      display: grid !important; grid-template-columns: 112px minmax(0, 1fr); grid-template-rows: auto 1fr auto;
-    }
-    .feed__box :global([class*='Post__PostRoot'] > div:not(.es-post-keyboard-open-control):not(:has([class*='CardMediaBlock']))) { grid-template-columns: 0 minmax(0, 1fr); }
-    .feed__box :global([class*='CardMediaBlock__MediaBlock']) { grid-column: 1; grid-row: 1 / -1; align-self: stretch; }
-    .feed__box :global([class*='CardUserBlock__UserBlock']) { grid-column: 2; grid-row: 1; }
-    .feed__box :global([class*='Post__PostRoot'] > div > :nth-child(2):not([class*='Media'])) { grid-column: 2; grid-row: 2; }
-    .feed__box :global([class*='CardActionsBlock']) { grid-column: 2; grid-row: 3; }
-    /* Poza umple doar înălțimea dată de text: o captură înaltă nu mai lungește cardul */
-    .feed__box :global(.es-media-container) { position: relative; height: 100% !important; min-height: 120px; }
-    .feed__box :global(.es-media-image-container) { position: absolute !important; inset: 0; }
-    /* Pe telefon coloana de text e îngustă: fără „Distribuie”, poza de profil și sigla Facebook din colț */
-    .feed__box :global(.es-share-button-container),
-    .feed__box :global(.es-avatar-container),
-    .feed__box :global([class*='SourceLink']) { display: none !important; }
-    .feed__box :global([class*='User__Container']),
-    .feed__box :global([class*='User__Info']) { max-width: none !important; padding-right: 0 !important; gap: 0 !important; }
-    .feed__more { display: inline-flex; }
   }
 </style>
