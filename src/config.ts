@@ -32,6 +32,9 @@ export const FORMS = {
   newsletter: '',
 };
 
+// Widget-ul Elfsight cu feed-ul paginii de Facebook (secțiunea „Activitate recentă” de pe prima pagină)
+export const ELFSIGHT_FEED = '3bb0b266-ccaa-4e19-9c3d-ee6cc1e321ef';
+
 export const NAV = [
   { label: 'Acasă', href: '/' },
   { label: 'Povestea mea', href: '/povestea-mea' },
