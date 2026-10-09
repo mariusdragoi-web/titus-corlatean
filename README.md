@@ -37,10 +37,20 @@ Până atunci, formularele afișează un mesaj că nu sunt încă active.
 
 ## Publicare pe GitHub Pages
 
-1. Creează un repository pe GitHub și urcă proiectul (`git push` pe ramura `main`).
-2. În repository: **Settings → Pages → Source: GitHub Actions**.
-3. Fiecare push pe `main` construiește și publică automat site-ul (`.github/workflows/deploy.yml`).
-4. Domeniul: fișierul `public/CNAME` conține `www.titus-corlatean.ro`. La registrar, setează un record `CNAME` pentru `www` către `<utilizator>.github.io` și record-urile `A` pentru domeniul fără `www` către IP-urile GitHub Pages (185.199.108.153, 185.199.109.153, 185.199.110.153, 185.199.111.153). Apoi bifează **Enforce HTTPS**.
+Repository: [mariusdragoi-web/titus-corlatean](https://github.com/mariusdragoi-web/titus-corlatean). Fiecare push pe `main` construiește și publică automat site-ul (`.github/workflows/deploy.yml`, Settings → Pages → Source: GitHub Actions). Domeniul `www.titus-corlatean.ro` e setat în Settings → Pages.
+
+DNS (la gazduire.net):
+
+| Domeniu | Tip | Valoare |
+| --- | --- | --- |
+| `titus-corlatean.ro` | `A` | 185.199.108.153, 185.199.109.153, 185.199.110.153, 185.199.111.153 |
+| `www.titus-corlatean.ro` | `CNAME` | `mariusdragoi-web.github.io` |
+
+Înregistrările `MX`, `TXT` (Google, Microsoft 365, SPF) și cele pentru email nu se ating.
+
+### Al doilea domeniu: tituscorlatean.ro
+
+`tituscorlatean.ro` și `www.tituscorlatean.ro` redirecționează spre `www.titus-corlatean.ro`, păstrând calea. Redirecționarea e un mini-site separat: [mariusdragoi-web/tituscorlatean-redirect](https://github.com/mariusdragoi-web/tituscorlatean-redirect), cu aceleași înregistrări DNS (`A` spre cele 4 IP-uri GitHub, `CNAME www` spre `mariusdragoi-web.github.io`).
 
 Pentru alt host (Netlify, Cloudflare Pages, Hostinger), se publică folderul `dist/` rezultat din `npm run build`.
 
