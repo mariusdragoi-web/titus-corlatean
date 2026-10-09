@@ -1,0 +1,120 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import PageHero from '../components/PageHero.astro';
+---
+<Base title="Povestea mea" description="Titus Corlățean, senator PSD, povestește despre formarea sa ca profesionist în diplomație și politică externă." image="/images/foto-portret-negru.webp">
+
+  <PageHero eyebrow="Titus Corlățean" image="/images/foto-portret-negru.webp" imageAlt="Titus Corlățean, portret oficial" position="50% 20%">
+    <Fragment slot="title">Povestea mea</Fragment>
+  </PageHero>
+
+  <article class="chapters">
+    <!-- Primii ani -->
+    <section class="chapter section">
+      <div class="wrap chapter__grid">
+        <div class="chapter__text reveal">
+          <p class="chapter__n">I</p>
+          <h2 class="h2 rule">Primii ani</h2>
+          <p class="chapter__quote" data-clamp>M-am născut în <strong>Medgidia</strong>, un orășel pitoresc din Dobrogea, pe <strong>11 ianuarie 1968</strong>, într-o familie de intelectuali. Copilăria mea a fost una frumoasă, marcată de dragostea și grija părinților mei. Am crescut într-un mediu plin de cărți și discuții interesante, care mi-au insuflat o pasiune profundă pentru cunoaștere și învățătură.</p>
+        </div>
+        <figure class="chapter__media chapter__media--portrait reveal">
+          <img src="/images/photo-2021-03-03-14-35-04-2.webp" alt="Titus Corlățean în copilărie, alături de tatăl său" loading="lazy" width="1039" height="1386" />
+          <figcaption class="photo-cap">Titus Corlățean în copilărie, alături de tatăl său</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Familia mea -->
+    <section class="chapter section tone">
+      <div class="wrap chapter__grid chapter__grid--flip">
+        <div class="chapter__text reveal">
+          <p class="chapter__n">II</p>
+          <h2 class="h2 rule">Familia mea</h2>
+          <p class="chapter__quote" data-clamp>Sunt binecuvântat de Dumnezeu să am lângă mine pe soția mea <strong>Mădălina Corlățean</strong>, sprijinul meu în tot ceea ce fac de peste 20 de ani! Mai mult decât atât, Dumnezeu a adus-o în viața noastră pe Diana care împreună cu Marius ne-au făcut imensa bucurie de a ne aduce pe lume doi nepoți. Sunt binecuvântat să am lângă mine suportul emoțional și spiritual cu care familia mea mă înconjoară.</p>
+        </div>
+        <figure class="chapter__media reveal">
+          <img src="/images/foto-titus-madalina.webp" alt="Titus și Mădălina Corlățean" loading="lazy" width="2000" height="1334" />
+          <figcaption class="photo-cap">Titus și Mădălina Corlățean</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Diplomație -->
+    <section class="chapter section">
+      <div class="wrap chapter__grid">
+        <div class="chapter__text reveal">
+          <p class="chapter__n">III</p>
+          <h2 class="h2 rule">Diplomație și relații internaționale</h2>
+          <div data-clamp style="--clamp: 9em">
+          <p class="chapter__quote">Mi-am început cariera diplomatică în <a href="/ministerul-afacerilor-externe">Ministerul Afacerilor Externe</a>, reprezentând România în misiuni internaționale. În 2001, am devenit consilier pe politică externă al premierului <strong>Adrian Năstase</strong>, într-o perioadă cu mize majore regionale și globale.</p>
+          <p class="chapter__quote">Am contribuit direct la inițiative strategice precum eliminarea vizelor, aderarea la <strong>NATO și UE</strong>, și am înțeles ce înseamnă, în practică, o diplomație eficientă în slujba interesului național.</p>
+          </div>
+        </div>
+        <figure class="chapter__media reveal">
+          <img src="/images/intrevedere-titus-corlatean-anders-fogh-rasmussen.webp" alt="Întrevedere Titus Corlățean – Anders Fogh Rasmussen, secretarul general al NATO" loading="lazy" width="2000" height="1229" />
+          <figcaption class="photo-cap">Întrevedere Titus Corlățean – Anders Fogh Rasmussen, secretarul general al NATO</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Activitatea parlamentară -->
+    <section class="chapter section dark">
+      <div class="wrap">
+        <div class="chapter__head reveal">
+          <p class="chapter__n">IV</p>
+          <h2 class="h2 rule">Activitatea parlamentară</h2>
+        </div>
+        <div class="chapter__split">
+          <div class="reveal" data-clamp style="--clamp: 9em">
+            <p class="chapter__quote">Ca senator, mă implic activ în elaborarea legislației naționale și în susținerea proiectelor care aduc beneficii concrete județului <strong>Dâmbovița</strong>.</p>
+            <p class="chapter__quote">În comisiile parlamentare, folosesc expertiza mea juridică și diplomatică pentru a construi politici care întăresc statul de drept și apără drepturile fundamentale. Inițiez propuneri legislative care asigură respectarea angajamentelor internaționale ale României și cer responsabilitate din partea partenerilor externi.</p>
+          </div>
+          <div class="reveal">
+            <figure class="chapter__media chapter__media--wide">
+              <img src="/images/coe-plen-1.webp" alt="Titus Corlatean in the Council of Europe" loading="lazy" width="1600" height="1067" />
+            </figure>
+            <p class="chapter__quote">La <a href="/consiliul-europei">Consiliul Europei</a>, continui lupta pentru valorile democratice, combaterea corupției și protecția minorităților – în special a românilor din afara granițelor. Susțin cu fermitate drepturile familiilor românești afectate de abuzuri în alte state europene.</p>
+          </div>
+        </div>
+        <div class="chapter__next reveal">
+          <a href="/parlamentul-romaniei" class="btn">Parlamentul României <Icon name="arrow" /></a>
+          <a href="/consiliul-europei" class="btn btn--ghost">Consiliul Europei <Icon name="arrow" /></a>
+        </div>
+      </div>
+    </section>
+  </article>
+</Base>
+
+<style>
+  .chapter__grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2.5rem, 6vw, 6rem); align-items: center; }
+  .chapter__grid--flip .chapter__text { order: 2; }
+  .chapter__n { font-family: var(--display); font-weight: 800; font-size: 1.1rem; letter-spacing: 0.1em; color: var(--red); margin-bottom: 0.6rem; }
+  .dark .chapter__n { color: var(--red-on-dark); font-size: 1.2rem; }
+  .chapter__quote { font-size: clamp(1.08rem, 1rem + 0.35vw, 1.25rem); line-height: 1.7; max-width: 46ch; }
+  .chapter__quote strong { font-weight: 700; }
+  .chapter__quote a { color: var(--red); text-underline-offset: 4px; text-decoration-thickness: 1px; }
+  .dark .chapter__quote a { color: var(--on-dark); }
+  .chapter__media { margin: 0; }
+  .chapter__media img { width: 100%; border-radius: var(--r-lg); box-shadow: var(--shadow); }
+  .chapter__media--portrait { max-width: 440px; justify-self: center; }
+  .chapter__media--portrait img { aspect-ratio: 3 / 4; object-fit: cover; }
+  .chapter__media--wide { margin-bottom: 2rem; }
+  .chapter__head { margin-bottom: 2.5rem; }
+  .chapter__split { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2.5rem, 6vw, 6rem); }
+  .chapter__next { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 3.5rem; padding-top: 2.5rem; border-top: 1px solid var(--line-dark); }
+
+  @media (max-width: 860px) {
+    .chapter__grid, .chapter__split { grid-template-columns: 1fr; }
+    .chapter__grid--flip .chapter__text { order: 0; }
+  }
+  @media (max-width: 760px) {
+    .chapter__grid, .chapter__split { gap: 1.6rem; }
+    .chapter__quote { font-size: 1.02rem; }
+    .chapter__media img { aspect-ratio: 16 / 10; object-fit: cover; }
+    .chapter__media--portrait { max-width: none; }
+    .chapter__media--portrait img { aspect-ratio: 16 / 11; object-position: 50% 30%; }
+    .chapter__next { margin-top: 2rem; padding-top: 1.6rem; }
+    .chapter__next .btn { flex: 1 1 100%; justify-content: space-between; }
+  }
+</style>

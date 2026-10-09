@@ -1,0 +1,49 @@
+---
+import { formatDate, type Post } from '../lib/posts';
+interface Props {
+  post: Post;
+  featured?: boolean;
+}
+const { post, featured = false } = Astro.props;
+---
+<article class:list={['pc reveal', { 'pc--featured': featured }]}>
+  <a href={`/blog/${post.slug}`} class="pc__link">
+    <div class="pc__media">
+      {post.image ? (
+        <img src={post.image} alt="" loading="lazy" />
+      ) : (
+        <div class="pc__placeholder" aria-hidden="true"><img src="/images/monograma-alb.webp" alt="" /></div>
+      )}
+    </div>
+    <div class="pc__body">
+      <time datetime={post.date} class="pc__date">{formatDate(post.date)}</time>
+      <h3 class="pc__title">{post.title}</h3>
+      {featured && post.summary && <p class="pc__excerpt">{post.summary}</p>}
+      <span class="pc__more">Citește articolul</span>
+    </div>
+  </a>
+</article>
+
+<style>
+  .pc__link { display: grid; gap: 1.2rem; text-decoration: none; color: inherit; height: 100%; }
+  .pc__media { overflow: hidden; border-radius: var(--r-md); aspect-ratio: 16 / 11; background: var(--ink); }
+  .pc__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s var(--ease); }
+  .pc__link:hover .pc__media img { transform: scale(1.04); }
+  .pc__placeholder {
+    width: 100%; height: 100%; display: grid; place-items: center;
+    background:
+      linear-gradient(150deg, var(--red) 0%, var(--ink) 75%);
+  }
+  .pc__placeholder img { width: 22%; height: auto; opacity: 0.9; }
+  .pc__date { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--red); }
+  .pc__title { font-size: clamp(1.2rem, 1.1rem + 0.45vw, 1.4rem); line-height: 1.28; margin: 0.5rem 0 0.7rem; transition: color 0.2s; }
+  .pc__link:hover .pc__title { color: var(--red); }
+  .pc__excerpt { color: var(--text-soft); margin-bottom: 1rem; }
+  .pc__more { font-size: 0.88rem; font-weight: 700; border-bottom: 1px solid currentColor; padding-bottom: 1px; }
+  .pc--featured .pc__link { grid-template-columns: 1.25fr 1fr; gap: clamp(1.5rem, 4vw, 3.5rem); align-items: center; }
+  .pc--featured .pc__media { aspect-ratio: 4 / 3; }
+  .pc--featured .pc__title { font-size: clamp(1.7rem, 1.3rem + 1.5vw, 2.6rem); line-height: 1.1; }
+  :global(.dark) .pc__date { color: var(--on-dark); }
+  :global(.dark) .pc__excerpt { color: var(--on-dark-soft); }
+  @media (max-width: 820px) { .pc--featured .pc__link { grid-template-columns: 1fr; } }
+</style>

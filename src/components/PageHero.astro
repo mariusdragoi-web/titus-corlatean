@@ -1,0 +1,83 @@
+---
+interface Props {
+  eyebrow?: string;
+  image?: string;
+  imageAlt?: string;
+  /** split: text left, photo right · cover: photo as full background */
+  variant?: 'split' | 'cover' | 'plain';
+  position?: string;
+}
+const { eyebrow, image, imageAlt = '', variant = image ? 'split' : 'plain', position = 'center' } = Astro.props;
+const hasLead = Astro.slots.has('default');
+---
+<section class:list={['phero dark', `phero--${variant}`]}>
+  {variant === 'cover' && image && (
+    <div class="phero__bg" aria-hidden="true">
+      <img src={image} alt="" style={`object-position:${position}`} fetchpriority="high" />
+    </div>
+  )}
+  <div class="phero__inner wrap">
+    <div class="phero__text">
+      {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+      <h1 class="phero__title"><slot name="title" /></h1>
+      {hasLead && <div class="phero__lead" data-clamp style="--clamp: 7.2em"><slot /></div>}
+    </div>
+    {variant === 'split' && image && (
+      <figure class="phero__media">
+        <img src={image} alt={imageAlt} style={`object-position:${position}`} fetchpriority="high" />
+      </figure>
+    )}
+  </div>
+</section>
+
+<style>
+  .phero { position: relative; overflow: hidden; isolation: isolate; }
+  .phero::after {
+    content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background: radial-gradient(70% 90% at 0% 0%, rgba(166, 17, 17, 0.22), transparent 60%);
+  }
+  .phero__inner { padding-block: clamp(3.5rem, 8vw, 7rem) clamp(4rem, 9vw, 7.5rem); display: grid; gap: clamp(2.5rem, 5vw, 5rem); align-items: center; }
+  .phero--split .phero__inner { grid-template-columns: 1.05fr 0.95fr; }
+  .phero__title { font-size: clamp(2.3rem, 1.4rem + 3.6vw, 4.4rem); font-weight: 800; letter-spacing: -0.035em; line-height: 1.04; margin-bottom: 0.9em; }
+  .phero__title:last-child { margin-bottom: 0; }
+  .phero__title::after { content: ''; display: block; width: 72px; height: 5px; background: var(--on-dark); margin-top: 0.45em; }
+  .phero__title :global(strong) { font-weight: 800; color: var(--red-on-dark); }
+  .phero__lead { font-size: clamp(1.05rem, 0.98rem + 0.35vw, 1.22rem); line-height: 1.75; color: var(--on-dark-soft); max-width: 60ch; }
+  .phero__lead :global(p:last-child) { margin-bottom: 0; }
+  .phero__lead :global(a:not(.btn)) { color: #fff; text-underline-offset: 3px; }
+  .phero__media { margin: 0; position: relative; }
+  .phero__media img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--r-lg); }
+  .phero__media::before {
+    content: ''; position: absolute; inset: 18px -18px -18px 18px; z-index: -1;
+    border: 1px solid var(--red); border-radius: var(--r-lg);
+  }
+  .phero--plain .phero__inner { padding-block: clamp(3rem, 6vw, 5rem) clamp(3.5rem, 7vw, 5.5rem); }
+  .phero--cover { min-height: min(78dvh, 760px); display: flex; align-items: flex-end; }
+  /* Text peste poză: alb aproape plin, nu gri */
+  .phero--cover .phero__lead { color: rgba(255, 255, 255, 0.9); }
+  .phero--cover .phero__inner { width: min(100% - 2 * var(--gutter), var(--wrap)); }
+  .phero--cover .phero__text { max-width: 760px; }
+  .phero__bg { position: absolute; inset: 0; z-index: -2; }
+  .phero__bg img { width: 100%; height: 100%; object-fit: cover; }
+  .phero__bg::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.82) 45%, rgba(0, 0, 0, 0.25) 100%),
+                linear-gradient(0deg, rgba(0, 0, 0, 0.9), transparent 55%);
+  }
+  @media (max-width: 900px) {
+    .phero--split .phero__inner { grid-template-columns: 1fr; }
+    .phero__media { max-width: 520px; }
+    .phero__media img { aspect-ratio: 4 / 3.4; }
+    .phero__bg::after { background: linear-gradient(0deg, rgba(0, 0, 0, 0.96) 25%, rgba(0, 0, 0, 0.55)); }
+  }
+  @media (max-width: 760px) {
+    .phero--cover { display: block; min-height: 0; }
+    .phero--cover .phero__bg { position: relative; inset: auto; height: 62vw; min-height: 230px; }
+    .phero--cover .phero__bg::after { background: linear-gradient(0deg, #000 0%, rgba(0, 0, 0, 0) 55%); }
+    .phero--cover .phero__inner { padding-top: 0.5rem; }
+    .phero__inner { padding-block: 2.6rem 3.2rem; gap: 2rem; }
+    .phero__title { font-size: clamp(2rem, 9vw, 2.7rem); }
+    .phero__lead { font-size: 1rem; line-height: 1.7; }
+    .phero__media::before { display: none; }
+  }
+</style>

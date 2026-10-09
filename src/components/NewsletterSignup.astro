@@ -1,0 +1,106 @@
+---
+import Icon from './Icon.astro';
+import { FORMS } from '../config';
+---
+<section class="nl snap" id="abonare">
+  <div class="wrap nl__grid">
+    <figure class="nl__media">
+      <img src="/images/portret-rosu.webp" alt="Titus Corlățean, om politic român, senator PSD și fost ministru, apără valorile naționale și drepturile românilor." loading="lazy" width="2000" height="2000" />
+    </figure>
+
+    <div class="nl__body reveal">
+      <h2 class="nl__title">Din partea mea, direct către tine</h2>
+      <p class="nl__lead">Primește, din când în când, cele mai importante noutăți despre activitatea mea.</p>
+
+      <form class="nl__form" data-form="newsletter" data-endpoint={FORMS.newsletter} novalidate
+        data-success="Mulțumesc frumos! Vei primi, ocazional, cele mai importante informații despre activitatea mea – fără zgomot, doar ceea ce cred că merită cu adevărat împărtășit.">
+        <input type="hidden" name="_subject" value="Abonare newsletter titus-corlatean.ro" />
+        <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+        <div class="nl__names">
+          <div class="nl__field">
+            <label for="nl-fname">Prenume</label>
+            <input id="nl-fname" name="prenume" type="text" autocomplete="given-name" />
+          </div>
+          <div class="nl__field">
+            <label for="nl-lname">Nume</label>
+            <input id="nl-lname" name="nume" type="text" autocomplete="family-name" />
+          </div>
+        </div>
+
+        <div class="nl__field">
+          <label for="nl-email">Adresă de e-mail</label>
+          <div class="nl__email">
+            <input id="nl-email" name="email" type="email" autocomplete="email" inputmode="email" required />
+            <button type="submit" class="nl__submit">Abonează-te <Icon name="arrow" /></button>
+          </div>
+        </div>
+
+        <p class="form-status" role="status" aria-live="polite"></p>
+        <p class="nl__note">Un canal discret pentru idei, perspective și momente relevante din activitatea mea.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Fundalul portretului este exact roșul de brand (#A61111), deci poza se contopește cu secțiunea */
+  .nl { background: var(--red); color: #fff; position: relative; overflow: hidden; }
+  .nl__grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: clamp(2rem, 5vw, 5rem); align-items: end; }
+  .nl__media { margin: 0; align-self: end; }
+  .nl__media img { display: block; width: 100%; max-width: 560px; aspect-ratio: 1 / 1; object-fit: cover; object-position: 50% 0; }
+  .nl__body { align-self: center; padding-block: clamp(3rem, 6vw, 5rem); }
+
+  .nl__title { font-size: clamp(1.9rem, 1.35rem + 2.2vw, 3.1rem); max-width: 14ch; margin-bottom: 0.5em; }
+  .nl__title::after { content: ''; display: block; width: 72px; height: 5px; background: #fff; margin-top: 0.45em; }
+  .nl__lead { font-size: clamp(1.05rem, 1rem + 0.3vw, 1.2rem); line-height: 1.6; max-width: 44ch; opacity: 0.92; margin-bottom: 1.8rem; }
+
+  .nl__form { display: grid; gap: 0.9rem; max-width: 560px; }
+  .nl__names { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+  .nl__field { display: grid; gap: 0.35rem; }
+  .nl__field label { font-size: 0.82rem; font-weight: 700; letter-spacing: 0.02em; }
+  .nl__field input {
+    width: 100%; height: 52px; padding: 0 1rem;
+    background: #fff; color: var(--text); border: 2px solid #fff; border-radius: var(--r-sm);
+    font-size: 1rem; transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .nl__field input:focus { outline: none; border-color: #000; box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.25); }
+  .nl__field input[aria-invalid='true'] { border-color: #000; box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.55); }
+
+  .nl__email { display: flex; }
+  .nl__email input { border-radius: var(--r-sm) 0 0 var(--r-sm); min-width: 0; }
+  .nl__submit {
+    flex: none; display: inline-flex; align-items: center; gap: 0.6rem; height: 52px; padding: 0 1.4rem;
+    background: #000; color: #fff; border: 0; border-radius: 0 var(--r-sm) var(--r-sm) 0; cursor: pointer;
+    font-family: var(--display); font-weight: 700; font-size: 0.95rem; white-space: nowrap;
+    transition: background-color 0.2s, transform 0.2s;
+  }
+  .nl__submit :global(svg) { width: 1.05em; height: 1.05em; transition: transform 0.3s var(--ease); }
+  .nl__submit:hover { background: #1a1a1a; }
+  .nl__submit:hover :global(svg) { transform: translateX(3px); }
+  .nl__submit:active { transform: translateY(1px); }
+  .nl__submit[disabled] { opacity: 0.7; cursor: progress; }
+
+  .nl :global(.form-status) { color: #fff; font-weight: 700; margin: 0; min-height: 0; }
+  .nl :global(.form-status:empty) { display: none; }
+  .nl :global(.form-status.is-ok) { padding: 0.9rem 1rem; background: rgba(0, 0, 0, 0.25); border-left: 4px solid #fff; }
+  .nl :global(.form-status.is-error) { color: #fff; padding: 0.7rem 1rem; background: rgba(0, 0, 0, 0.35); }
+  .nl__note { font-size: 0.92rem; line-height: 1.5; margin: 0.2rem 0 0; max-width: 46ch; }
+
+  @media (max-width: 960px) {
+    .nl__grid { grid-template-columns: 1fr; gap: 0; }
+    .nl__body { order: -1; padding-bottom: 1.5rem; }
+    .nl__media { justify-self: center; width: min(100%, 420px); }
+  }
+  @media (max-width: 760px) {
+    .nl__body { padding-top: 2.6rem; }
+    .nl__title { font-size: clamp(1.75rem, 7.4vw, 2.2rem); }
+    .nl__lead { font-size: 1rem; margin-bottom: 1.3rem; }
+    .nl__email { flex-direction: column; gap: 0.6rem; }
+    .nl__email input { border-radius: var(--r-sm); }
+    .nl__submit { justify-content: center; border-radius: var(--r-sm); width: 100%; }
+    /* Pe telefon portretul nu aduce informație și împinge secțiunea următoare cu ~300px */
+    .nl__media { display: none; }
+    .nl__body { padding-bottom: 2.6rem; }
+  }
+</style>

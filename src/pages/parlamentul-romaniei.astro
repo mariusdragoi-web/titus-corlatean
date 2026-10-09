@@ -1,0 +1,156 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Timeline from '../components/Timeline.astro';
+import CareerNext from '../components/CareerNext.astro';
+
+// Actualizat 9 octombrie 2026. Surse: senat.ro (fișele pe legislaturi 2008–2028) și cdep.ro (mandatul de deputat 2004–2008).
+// Totaluri adunate pe toate mandatele: Senat 227 inițiative / 94 legi (numărate nominal, „A devenit Legea”) / 23 moțiuni / 991 luări de cuvânt
+// + Camera Deputaților 21 / 6 / 8. L287/2026 (la CCR) și L294/2026 (la promulgare) nu sunt încă numărate ca legi.
+const stats = [
+  { n: '248', label: 'Inițiative legislative' },
+  { n: '100', label: 'Legi promulgate' },
+  { n: '31', label: 'Moțiuni' },
+  { n: '991', label: 'Luări de cuvânt în plenul Senatului' },
+];
+
+const roles = [
+  { title: 'Președintele Senatului (interimar)', when: 'Februarie – aprilie 2020' },
+  { title: 'Vicepreședintele Biroului Permanent', when: 'Din 2019, în mandatul 2016–2020' },
+  { title: 'Președintele Comisiei pentru Politică Externă', when: 'Mandatele: din 2024 (în prezent), 2020–2024, 2008–2012' },
+  { title: 'Vicepreședintele Comisiei speciale comune pentru aderarea României la OCDE', when: 'Din 2025' },
+  { title: 'Președintele Comisiei speciale comune a Camerei Deputaților și Senatului pentru aderarea României la spațiul Schengen', when: 'Mandatele: 2012–2016, 2008–2012' },
+  { title: 'Reprezentant al Adunării Parlamentare a Consiliului Europei', when: 'În mandatul 2009–2012 și din 2017 până în prezent.' },
+];
+
+const laws = [
+  {
+    date: '2024-2028', list: [
+      'Completarea art.19 din Legea nr.373/2013 privind cooperarea dintre Parlament și Guvern în domeniul afacerilor europene — Legea nr. 9/2026',
+      'Programul Național de Accesibilizare a Locuințelor „Lift pentru viață” — Legea nr. 153/2026',
+      'Modificarea art.12 din Legea nr.96/2006 privind Statutul deputaților și al senatorilor — Legea nr. 197/2025',
+      'Modificarea și completarea Legii nr.360/2023 privind sistemul public de pensii — adoptată de Senat, în dezbatere la Camera Deputaților',
+      'Modificarea art.19 alin.(14) din Legea nr.226/2023 privind tarifele rutiere — în dezbatere la Senat',
+      'Legea privind unele măsuri pentru protejarea intereselor naționale în activitatea economică — adoptată de Parlament, sesizată la Curtea Constituțională (iunie 2026)',
+      'Legea pentru modificarea Legii nr. 286/2009 privind Codul penal — adoptată de Parlament, trimisă la promulgare (septembrie 2026)',
+    ],
+  },
+  {
+    date: '2020-2024', list: [
+      'Completarea art.190 din Legea nr.134/2010 privind Codul de procedură civilă',
+      'Completarea art.291 din Legea nr.227/2015 privind Codul fiscal — Legea nr. 287/2021',
+      'Înființarea Muzeului Național de Istorie și Cultură a Romilor din România — Legea nr. 238/2023',
+      'Modificarea Legii nr.62/2019 privind activitatea consulară — Legea nr. 13/2024',
+      'Prevenirea și combaterea traficului și consumului ilicit de droguri — Legea nr. 172/2024',
+      'Înființarea Muzeului Național al Revoluției Anticomuniste din Decembrie 1989 — Legea nr. 259/2022',
+      'Legea nr.272/2004 (republicată) privind protecția și promovarea drepturilor copilului: *Introducerea amendamentului: ”Derularea sistematică în unitățile școlare cu acordul scris al părinților sau reprezentanților legali ai copiilor de programe de educație pentru viața inclusiv educație sanitară în vederea prevenirii contractării bolilor cu transmitere sexuală și gravidității minorelor...."',
+    ],
+  },
+  {
+    date: '2016-2020', list: [
+      'Legea privind declararea zilei de 4 iunie ca Ziua Tratatului de la Trianon',
+      'Modificarea și completarea Legii nr.104/2008 (prevenirea și combaterea producerii și traficului de substanțe dopante cu risc mare)',
+      'Modificarea și completarea O.G. nr.137/2000 (prevenirea și sancționarea discriminării) și a Legii nr.202/2002 (egalitatea de șanse între femei și bărbați)',
+    ],
+  },
+  {
+    date: '2012-2016', list: [
+      'Modificarea şi completarea legii nr.51/1995 pentru organizarea şi exercitarea profesiei de avocat',
+      'Modificarea şi completarea articolelor 55 şi 158 din Legea nr.263/2010 privind sistemul unitar de pensii publice.',
+      'Propunere legislativă privind industria naţională de apărare',
+    ],
+  },
+  {
+    date: '2008-2012', list: [
+      'Modificarea și completarea art.2 din Legea nr.299/2007 (sprijin pentru românii de pretutindeni)',
+      'Modificarea și completarea Legii nr.151/2010 (servicii integrate pentru persoane cu tulburări din spectrul autist și tulburări mintale asociate)',
+    ],
+  },
+  {
+    date: '2004-2008', list: [
+      'Modificarea şi completarea Legii învăţământului nr.84/1995, republicată, cu modificările şi completările ulterioare',
+      'Modificarea Legii nr.3/2000 privind organizarea şi desfăşurarea referendumului',
+    ],
+  },
+];
+---
+<Base title="Parlamentul României" description="Activitatea parlamentară a senatorului Titus Corlățean reflectă implicarea în comisii și promovarea intereselor României.">
+  <PageHero eyebrow="Carieră" variant="cover" image="/images/parlamentul-romaniei.webp" position="50% 40%">
+    <Fragment slot="title">Parlamentul României</Fragment>
+    <p>Activitatea mea în Parlamentul României nu se rezumă doar la numere și statistici. Cele mai importante aspecte legate de activitatea mea sunt calitatea legilor adoptate și reprezentarea intereselor României prin implicarea mea în comisiile de specialitate.</p>
+  </PageHero>
+
+  <section class="stats">
+    <div class="wrap">
+      <ul class="stats__list">
+        {stats.map((s) => (
+          <li class="reveal"><span class="stats__n">{s.n}</span><span class="stats__l">{s.label}</span></li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap roles">
+      <h2 class="h2 rule roles__title reveal">Funcțiile cheie deținute în <span class="red">Parlamentul României</span></h2>
+      <ol class="roles__list">
+        {roles.map((r) => (
+          <li class="reveal">
+            <h3>{r.title}</h3>
+            <p>{r.when}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section tone">
+    <div class="wrap">
+      <h2 class="h2 rule reveal laws__title">Inițiative legislative pe mandate</h2>
+      <p class="source">Date actualizate în octombrie 2026, din <a href="https://www.senat.ro" target="_blank" rel="noopener">senat.ro</a> și <a href="https://www.cdep.ro" target="_blank" rel="noopener">cdep.ro</a>.</p>
+      <Timeline items={laws} short />
+    </div>
+  </section>
+
+  <CareerNext current="/parlamentul-romaniei" />
+</Base>
+
+<style>
+  .stats { background: var(--ink); color: var(--on-dark); padding-bottom: clamp(3rem, 6vw, 5rem); }
+  .stats__list { list-style: none; margin: 0; padding: 2.5rem 0 0; display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line-dark); }
+  .stats__list li { display: flex; flex-direction: column; padding-right: 2rem; }
+  .stats__list li + li { padding-left: 2rem; border-left: 1px solid var(--line-dark); }
+  .stats__n { font-family: var(--display); font-size: clamp(3.4rem, 2rem + 5vw, 6.5rem); font-weight: 800; line-height: 0.95; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
+  .stats__l { color: var(--on-dark-soft); margin-top: 0.6rem; }
+
+  .laws__title { margin-bottom: 0.8rem; }
+  .source { font-size: 0.92rem; color: var(--text-soft); margin-bottom: 2.8rem; }
+  .source a { color: inherit; }
+  .roles { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: clamp(2rem, 6vw, 6rem); align-items: start; }
+  .roles__title { position: sticky; top: 120px; }
+  .roles__list { list-style: none; margin: 0; padding: 0; counter-reset: r; }
+  .roles__list li { counter-increment: r; position: relative; padding: 1.8rem 0 1.8rem 3.5rem; border-top: 1px solid var(--line); }
+  .roles__list li:last-child { border-bottom: 1px solid var(--line); }
+  .roles__list li::before { content: counter(r, decimal-leading-zero); position: absolute; left: 0; top: 2.05rem; font-family: var(--display); font-weight: 800; color: var(--red); }
+  .roles__list h3 { font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.6rem); margin-bottom: 0.4rem; line-height: 1.25; }
+  .roles__list p { margin: 0; color: var(--text-soft); }
+
+  @media (max-width: 860px) {
+    .roles { grid-template-columns: 1fr; }
+    .roles__title { position: static; }
+  }
+  @media (max-width: 760px) {
+    .roles__list li { padding: 1.1rem 0 1.1rem 2.6rem; }
+    .roles__list li::before { top: 1.3rem; }
+    .roles__list h3 { font-size: 1.05rem; }
+    .roles__list p { font-size: 0.9rem; }
+  }
+  @media (max-width: 640px) {
+    .stats__list { padding-top: 1.6rem; grid-template-columns: 1fr 1fr; row-gap: 1.4rem; }
+    .stats__list li + li:nth-child(3) { padding-left: 0; border-left: 0; }
+    .stats__list li { padding-right: 0.6rem; }
+    .stats__list li + li { padding-left: 0.9rem; }
+    .stats__n { font-size: clamp(2rem, 10vw, 2.8rem); }
+    .stats__l { font-size: 0.78rem; line-height: 1.3; }
+  }
+</style>

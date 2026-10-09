@@ -1,0 +1,59 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Timeline from '../components/Timeline.astro';
+import CareerNext from '../components/CareerNext.astro';
+
+const path = [
+  {
+    date: 'Mai 2012 – August 2012',
+    title: 'Ministrul Justiției',
+    subtitle: '"Justiția aproape de cetățean"',
+    text: 'Am susținut demersurile normale și necesare pentru ca Justiția să răspundă atât cerințelor interne, cât și angajamentelor asumate în cadrul Mecanismului de Cooperare și Verificare (MCV) în colaborarea cu Comisia Europeană.',
+  },
+  {
+    date: 'Iulie 2003 – Decembrie 2004',
+    title: 'Secretar de stat în Guvernul României',
+    subtitle: 'Departamentul pentru românii de pretutindeni',
+    text: 'Contactul meu cu diaspora românească prin prisma acestei poziții s-a materializat prin inițierea, din postura de deputat PSD, a unei legi privind sprijinul acordat românilor de pretutindeni, adoptată de Parlament în noiembrie 2007.',
+  },
+  {
+    date: 'Octombrie 2001 – Iunie 2003',
+    title: 'Consilier al Primului-ministru pentru politică externă',
+    subtitle: 'Guvernul Adrian Năstase',
+    text: 'Am devenit consilierul personal al premierului Adrian Năstase, după patru ani dezastruoși pentru politica externă a României, pe care i-am resimțit în mod direct din postura mea de diplomat la Strasbourg. Din această postură am fost direct implicat în discuţiile privind eliminarea vizelor pentru românii care călătoresc în Uniunea Europeană, în negocierile politico-diplomatice pentru aderarea la NATO şi la Uniunea Europeană',
+  },
+  {
+    date: 'August 1997 – August 2001',
+    title: 'Co-Agent al Guvernului României',
+    subtitle: 'CEDO și în cadrul Consiliului Europei',
+    text: 'Am participat activ la procesul de aderare a României la Consiliul Europei și la semnarea Convenției-cadru pentru protecția minorilor în 1995. O altă experiență importantă a fost colaborarea în echipa de negociatori ai României în cadrul Comisiei Dunării.',
+  },
+  {
+    date: '1994-2001',
+    title: 'Ministerul de Externe',
+    subtitle: 'Diplomat',
+    text: 'Primii ani din cariera profesională în cadrul Ministerului de Externe.',
+  },
+];
+---
+<Base title="Ministerul Justiției și începuturile carierei lui Titus Corlățean" description="Titus Corlățean, om politic român, a coordonat eforturile de aderare la UE și NATO din poziția de ministru al Justiției." image="/images/foto-scaun.webp">
+  <PageHero eyebrow="Carieră" image="/images/foto-scaun.webp" imageAlt="Titus Corlățean — fotografie oficială" position="50% 18%">
+    <Fragment slot="title">Activitatea guvernamentală și Ministerul Justiției</Fragment>
+    <p>În 2001, ca consilier pe politică externă al premierului Adrian Năstase, am contribuit la pregătirea și finalizarea negocierilor pentru aderarea României la UE și NATO — un moment-cheie în politica externă și de securitate a țării. În anii următori, ca secretar de stat pentru românii de pretutindeni, am promovat inițiative esențiale pentru sprijinirea identității naționale în comunitățile românești din jurul granițelor și din diaspora.</p>
+    <p>În 2012, am deținut funcția de Ministru al Justiției, perioadă în care m-am concentrat pe consolidarea statului de drept și continuarea reformelor necesare în contextul angajamentelor europene ale României.</p>
+  </PageHero>
+
+  <section class="section">
+    <div class="wrap">
+      <h2 class="h2 rule reveal path__title">Parcursul activității mele</h2>
+      <Timeline items={path} short />
+    </div>
+  </section>
+
+  <CareerNext current="/ministerul-justitiei-inceputurile-carierei" />
+</Base>
+
+<style>
+  .path__title { margin-bottom: 3.5rem; }
+</style>

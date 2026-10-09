@@ -1,0 +1,349 @@
+/* Fonturi conform Brand Guidelines: Montserrat (H1, H2, callout), Lato (H3, H4, paragraf), Verdana (paragraf 2) */
+@import '@fontsource-variable/montserrat/wght.css';
+@import '@fontsource-variable/montserrat/wght-italic.css';
+@import '@fontsource/lato/400.css';
+@import '@fontsource/lato/400-italic.css';
+@import '@fontsource/lato/700.css';
+@import '@fontsource/lato/900.css';
+
+/* ------------------------------------------------------------------ */
+/* Tokens                                                              */
+/* ------------------------------------------------------------------ */
+:root {
+  /* Paleta din Brand Guidelines: roșu a61111, alb, negru */
+  --ink: #000000;
+  --ink-2: #0d0d0d;
+  --ink-3: #1a1a1a;
+  --paper: #ffffff;
+  --paper-2: #f4f4f4;
+  --paper-3: #e8e8e8;
+  --text: #000000;
+  --text-soft: #4d4d4d;
+  --text-faint: #808080;
+  --on-dark: #ffffff;
+  --on-dark-soft: #b5b5b5;
+  --line: rgba(0, 0, 0, 0.14);
+  --line-dark: rgba(255, 255, 255, 0.16);
+  --red: #a61111;
+  --red-deep: #850d0d;
+  /* Roșul de brand are contrast 2,7:1 pe negru; pe fundal negru textul roșu folosește o nuanță puțin mai deschisă (4:1) */
+  --red-on-dark: #d42020;
+
+  --display: 'Montserrat Variable', Montserrat, 'Helvetica Neue', Arial, sans-serif;
+  --sans: 'Lato', 'Helvetica Neue', Arial, sans-serif;
+  --alt: Verdana, Geneva, sans-serif;
+
+  --wrap: 1120px;
+  --wrap-narrow: 760px;
+  --gutter: clamp(1.25rem, 4vw, 3rem);
+  --section: clamp(4.5rem, 10vw, 8rem);
+
+  --r-sm: 3px;
+  --r-md: 6px;
+  --r-lg: 6px;
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 14px 34px -14px rgba(0, 0, 0, 0.3);
+
+  --z-header: 50;
+  --z-menu: 60;
+  --header-h: 92px;
+  --secnav-h: 0px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Base                                                                */
+/* ------------------------------------------------------------------ */
+*, *::before, *::after { box-sizing: border-box; }
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-h) + var(--secnav-h));
+}
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+img, svg, video { display: block; max-width: 100%; height: auto; }
+a { color: inherit; }
+button, input, textarea, select { font: inherit; color: inherit; }
+p { margin: 0 0 1.1em; text-wrap: pretty; }
+h1, h2, h3, h4 { margin: 0 0 0.6em; text-wrap: balance; }
+h1, h2 { font-family: var(--display); font-weight: 800; line-height: 1.08; letter-spacing: -0.025em; }
+h3, h4 { font-family: var(--sans); font-weight: 900; line-height: 1.25; letter-spacing: -0.005em; }
+::selection { background: var(--red); color: #fff; }
+:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; border-radius: 2px; }
+
+.skip-link {
+  position: absolute; left: 1rem; top: -100px; z-index: 100;
+  background: var(--red); color: #fff; padding: 0.7rem 1rem; border-radius: var(--r-sm);
+  text-decoration: none; font-weight: 600;
+}
+.skip-link:focus { top: 1rem; }
+
+.visually-hidden {
+  position: absolute !important; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+/* ------------------------------------------------------------------ */
+/* Layout helpers                                                      */
+/* ------------------------------------------------------------------ */
+.wrap { width: min(100% - 2 * var(--gutter), var(--wrap)); margin-inline: auto; }
+.wrap--narrow { width: min(100% - 2 * var(--gutter), var(--wrap-narrow)); margin-inline: auto; }
+.section { padding-block: var(--section) calc(var(--section) * 1.1); }
+.section--tight { padding-block: calc(var(--section) * 0.6) calc(var(--section) * 0.7); }
+.dark { background: var(--ink); color: var(--on-dark); }
+.dark .muted { color: var(--on-dark-soft); }
+.tone { background: var(--paper-2); }
+.muted { color: var(--text-soft); }
+
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 0.7rem;
+  font-family: var(--display);
+  font-size: 0.75rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--red);
+  margin: 0 0 1.4rem;
+}
+.eyebrow::before { content: ''; width: 28px; height: 3px; background: var(--red); }
+.dark .eyebrow { color: var(--on-dark); }
+
+.display {
+  font-family: var(--display);
+  font-size: clamp(2.5rem, 1.5rem + 4.4vw, 5.2rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.02;
+}
+.h2 { font-size: clamp(1.9rem, 1.35rem + 2.2vw, 3.1rem); }
+.h3 { font-size: clamp(1.3rem, 1.1rem + 0.9vw, 1.8rem); }
+
+/* Brand: linie neagră sub headings și subheadings (3–5pt) */
+.rule::after, .prose h2::after {
+  content: ''; display: block; width: 72px; height: 5px; margin-top: 0.45em;
+  background: var(--ink);
+}
+.dark .rule::after { background: var(--on-dark); }
+.rule--center::after { margin-inline: auto; }
+.lead { font-size: clamp(1.08rem, 1rem + 0.45vw, 1.3rem); line-height: 1.65; color: var(--text-soft); max-width: 62ch; }
+.dark .lead { color: var(--on-dark-soft); }
+.red { color: var(--red); }
+.dark .red { color: var(--red-on-dark); }
+.quote-style { font-family: var(--display); font-style: italic; font-weight: 400; }
+
+/* ------------------------------------------------------------------ */
+/* Buttons & links                                                     */
+/* ------------------------------------------------------------------ */
+.btn {
+  --bg: var(--red); --fg: #fff;
+  display: inline-flex; align-items: center; gap: 0.75rem;
+  padding: 0.95rem 1.5rem 0.95rem 1.6rem;
+  background: var(--bg); color: var(--fg);
+  border: 1px solid var(--bg); border-radius: var(--r-sm);
+  font-family: var(--display); font-weight: 700; font-size: 0.92rem; letter-spacing: 0.01em; line-height: 1;
+  text-decoration: none; cursor: pointer;
+  transition: background-color 0.25s var(--ease), color 0.25s var(--ease), transform 0.25s var(--ease), border-color 0.25s var(--ease);
+}
+.btn svg { width: 1.05em; height: 1.05em; transition: transform 0.3s var(--ease); }
+.btn:hover { --bg: var(--red-deep); }
+.btn:hover svg { transform: translateX(3px); }
+.btn:active { transform: translateY(1px) scale(0.99); }
+.btn--ghost { --bg: transparent; --fg: currentColor; border-color: currentColor; }
+.btn--ghost:hover { --bg: var(--ink); --fg: var(--on-dark); border-color: var(--ink); }
+.dark .btn--ghost:hover { --bg: var(--on-dark); --fg: var(--ink); border-color: var(--on-dark); }
+.btn[disabled] { opacity: 0.6; cursor: progress; }
+
+.link-arrow {
+  display: inline-flex; align-items: center; gap: 0.55rem;
+  font-family: var(--display); font-weight: 700; text-decoration: none; color: var(--red);
+  border-bottom: 1px solid currentColor; padding-bottom: 2px;
+  transition: gap 0.25s var(--ease), color 0.2s;
+}
+.link-arrow svg { width: 1em; height: 1em; }
+.link-arrow:hover { gap: 0.85rem; color: var(--red-deep); }
+.dark .link-arrow { color: var(--on-dark); }
+
+/* ------------------------------------------------------------------ */
+/* Prose (blog, newsletter, long text)                                 */
+/* ------------------------------------------------------------------ */
+.prose { font-size: clamp(1.03rem, 0.98rem + 0.25vw, 1.15rem); line-height: 1.75; }
+.prose > * { max-width: 68ch; }
+.prose h2 { font-size: clamp(1.5rem, 1.25rem + 1vw, 2rem); margin: 2.2em 0 0.8em; }
+.prose h3 { font-size: clamp(1.3rem, 1.15rem + 0.6vw, 1.6rem); margin: 2em 0 0.5em; }
+.prose h4 { font-size: 1.2rem; margin: 1.8em 0 0.5em; }
+.prose a { color: var(--red); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.prose a:hover { color: var(--red-deep); }
+.prose strong { font-weight: 700; }
+.prose ul, .prose ol { padding-left: 1.3em; margin: 0 0 1.3em; }
+.prose li { margin-bottom: 0.45em; }
+.prose li::marker { color: var(--red); }
+.prose blockquote {
+  margin: 2em 0; padding: 1.6em 1.8em;
+  background: var(--ink); color: var(--on-dark);
+  font-family: var(--display); font-size: 1.08em; line-height: 1.6; font-style: italic; font-weight: 400;
+}
+.prose blockquote p:last-child { margin-bottom: 0; }
+.prose figure { margin: 2.4em 0; max-width: 100%; }
+.prose figure img { border-radius: var(--r-md); width: 100%; max-height: 82vh; object-fit: contain; background: var(--paper-2); }
+.prose figcaption { font-size: 0.88rem; color: var(--text-faint); margin-top: 0.7em; }
+.prose > :first-child { margin-top: 0; }
+.prose .btn-row { margin-top: 1.5em; }
+
+/* Legendă sub poze: cine apare în fotografie */
+.photo-cap { margin-top: 0.75rem; font-size: 0.9rem; line-height: 1.45; color: var(--text-soft); }
+.dark .photo-cap { color: var(--on-dark-soft); }
+
+/* ------------------------------------------------------------------ */
+/* Click-to-load embeds                                                */
+/* ------------------------------------------------------------------ */
+.embed {
+  position: relative; margin: 2em 0; overflow: hidden;
+  border-radius: var(--r-md); background: var(--ink);
+  aspect-ratio: 16 / 9; max-width: 100%;
+}
+.embed--vertical { aspect-ratio: 9 / 16; max-width: 340px; }
+.embed--fb-post { aspect-ratio: auto; min-height: 220px; max-width: 520px; background: var(--ink-2); }
+.embed--fb-post.is-loaded { min-height: 640px; background: #fff; }
+.embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.embed__btn {
+  position: absolute; inset: 0; width: 100%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.45rem;
+  background:
+    linear-gradient(160deg, rgba(166, 17, 17, 0.55), var(--ink) 70%);
+  color: var(--on-dark); border: 0; cursor: pointer;
+  transition: filter 0.3s var(--ease);
+}
+.embed__btn:hover { filter: brightness(1.15); }
+.embed__icon {
+  width: 64px; height: 64px; border-radius: 50%; margin-bottom: 0.4rem;
+  background: var(--red); position: relative;
+  transition: transform 0.3s var(--ease);
+}
+.embed__icon::after {
+  content: ''; position: absolute; left: 26px; top: 21px;
+  border-left: 16px solid #fff; border-top: 11px solid transparent; border-bottom: 11px solid transparent;
+}
+.embed__btn:hover .embed__icon { transform: scale(1.06); }
+.embed__label { font-family: var(--display); font-weight: 700; font-size: 1rem; }
+.embed__note { font-size: 0.78rem; color: var(--on-dark-soft); }
+
+/* ------------------------------------------------------------------ */
+/* Forms                                                               */
+/* ------------------------------------------------------------------ */
+.field { display: grid; gap: 0.4rem; }
+.field label { font-size: 0.85rem; font-weight: 700; }
+.field input, .field textarea {
+  width: 100%; padding: 0.95rem 1rem;
+  background: #fff; border: 1px solid rgba(0, 0, 0, 0.22); border-radius: var(--r-sm);
+  transition: border-color 0.2s, background-color 0.2s, box-shadow 0.2s;
+}
+.field textarea { min-height: 170px; resize: vertical; }
+.field input:focus, .field textarea:focus { outline: none; border-color: var(--red); background: #fff; box-shadow: 0 0 0 3px rgba(166, 17, 17, 0.14); }
+.dark .field input, .dark .field textarea { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.36); color: var(--on-dark); }
+.dark .field input:hover, .dark .field textarea:hover { border-color: rgba(255, 255, 255, 0.55); }
+.dark .field input:focus, .dark .field textarea:focus { background: rgba(255, 255, 255, 0.12); border-color: #fff; box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.18); }
+.dark .field .req { color: var(--red-on-dark); }
+.dark .check input { accent-color: var(--red-on-dark); }
+.field input[aria-invalid='true'], .field textarea[aria-invalid='true'] { border-color: var(--red); }
+.field .req { color: var(--red); font-weight: 700; }
+.check { display: flex; gap: 0.7rem; align-items: flex-start; font-size: 0.92rem; }
+.check input { width: 18px; height: 18px; margin-top: 0.25rem; accent-color: var(--red); }
+.form-status { font-size: 0.95rem; min-height: 1.5em; margin: 0; }
+.form-status.is-error { color: var(--red); }
+.form-status.is-ok { color: inherit; }
+.hp { position: absolute; left: -9999px; }
+
+@media (max-width: 1080px) { :root { --header-h: 68px; } }
+
+/* Prima pagină: secțiunile se încadrează sub header la oprirea scroll-ului */
+html.snap { scroll-snap-type: y proximity; }
+html.snap .snap { scroll-snap-align: start; }
+html.snap .section.snap { padding-top: clamp(2.4rem, 4.5vw, 4.2rem); }
+/* Secțiunile lungi (ex. feed-ul Facebook) nu se „agață” — doar au aliniere corectă la ancoră */
+html.snap #activitate.section { padding-top: clamp(2.4rem, 4.5vw, 4.2rem); }
+@media (prefers-reduced-motion: reduce) { html.snap { scroll-snap-type: none; } }
+/* Pe desktop, scroll-snap „proximity” trage pagina înapoi la secțiunea anterioară la fiecare pas de rotiță.
+   Acolo alinierea o face site.ts, doar când oprirea e foarte aproape de începutul unei secțiuni. */
+@media (min-width: 761px) { html.snap { scroll-snap-type: none; } }
+
+@media (max-width: 760px) {
+  :root { --section: 3.6rem; --gutter: 1.25rem; }
+  .h2 { font-size: clamp(1.75rem, 7.4vw, 2.3rem); }
+  .display { font-size: clamp(2.3rem, 10.5vw, 3.2rem); }
+  .prose { font-size: 1.04rem; line-height: 1.72; }
+  .prose blockquote { padding: 1.2rem 1.3rem; font-size: 1rem; }
+  .btn { padding: 0.95rem 1.3rem; }
+  .eyebrow { margin-bottom: 1rem; }
+}
+
+/* ------------------------------------------------------------------ */
+/* Mobil: text pliat, acordeoane, carusele (desktopul rămâne neschimbat) */
+/* ------------------------------------------------------------------ */
+.more-btn, .acc-icon { display: none; }
+.acc-btn { all: unset; display: block; width: 100%; cursor: default; }
+
+@media (max-width: 760px) {
+  /* „Citește mai mult” */
+  [data-clamp]:not(.is-open):not(.no-clamp) {
+    max-height: var(--clamp, 8.6em); overflow: hidden;
+    -webkit-mask-image: linear-gradient(#000 55%, transparent);
+    mask-image: linear-gradient(#000 55%, transparent);
+  }
+  .more-btn {
+    display: inline-flex; align-items: center; gap: 0.45rem; margin: 0.6rem 0 0;
+    padding: 0.55rem 0; background: none; border: 0; border-bottom: 2px solid currentColor;
+    font-family: var(--display); font-weight: 700; font-size: 0.85rem; color: var(--red); cursor: pointer;
+  }
+  .dark .more-btn { color: #fff; }
+  .more-btn[hidden] { display: none; }
+
+  /* Acordeon */
+  .acc-btn { cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 1rem; -webkit-tap-highlight-color: transparent; }
+  .acc-icon {
+    display: grid; place-items: center; flex: none; width: 34px; height: 34px; border-radius: 50%;
+    border: 1px solid var(--line); position: relative;
+  }
+  .dark .acc-icon { border-color: var(--line-dark); }
+  .acc-icon::before, .acc-icon::after { content: ''; position: absolute; width: 12px; height: 2px; background: currentColor; transition: transform 0.25s var(--ease); }
+  .acc-icon::after { transform: rotate(90deg); }
+  .acc-item.is-open .acc-icon::after { transform: rotate(0deg); }
+  .acc-item.is-open .acc-icon { background: var(--red); border-color: var(--red); color: #fff; }
+  .acc-item:not(.is-open) .acc-body { display: none; }
+
+  /* Carusel orizontal */
+  .m-scroll {
+    display: flex !important; gap: 0.9rem; overflow-x: auto; scroll-snap-type: x mandatory;
+    margin-inline: calc(-1 * var(--gutter)); padding: 0.2rem var(--gutter) 1rem;
+    scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  }
+  .m-scroll::-webkit-scrollbar { display: none; }
+  .m-scroll > * { flex: 0 0 82%; scroll-snap-align: start; scroll-margin-left: var(--gutter); }
+
+  /* Listă scurtă + „Vezi toate” */
+  .m-more:not(.is-open) > :nth-child(n + 4) { display: none; }
+  .m-hide { display: none !important; }
+}
+
+/* Liste laterale cu scroll propriu (cuprinsuri): estompare jos cât mai e conținut */
+[data-scroll-fade].has-more {
+  -webkit-mask-image: linear-gradient(#000 calc(100% - 64px), transparent);
+  mask-image: linear-gradient(#000 calc(100% - 64px), transparent);
+}
+
+/* ------------------------------------------------------------------ */
+/* Reveal on scroll                                                    */
+/* ------------------------------------------------------------------ */
+.reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.9s var(--ease), transform 0.9s var(--ease); }
+.reveal.is-in { opacity: 1; transform: none; }
+.no-js .reveal { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}

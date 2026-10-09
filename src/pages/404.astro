@@ -1,0 +1,23 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+---
+<Base title="Pagina nu a fost găsită" noindex>
+  <section class="nf dark">
+    <div class="wrap">
+      <img src="/images/monograma-rosu.webp" alt="" width="120" height="120" class="nf__c" />
+      <h1 class="display">Pagina nu există.</h1>
+      <p class="lead">Adresa poate fi greșită sau pagina a fost mutată. Poți continua de pe prima pagină sau din blog.</p>
+      <div class="nf__actions">
+        <a href="/" class="btn">Prima pagină <Icon name="arrow" /></a>
+        <a href="/blog" class="btn btn--ghost">Blog</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf { min-height: 70vh; display: flex; align-items: center; padding-block: 5rem; }
+  .nf__c { width: 72px; height: auto; margin-bottom: 2rem; }
+  .nf__actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; }
+</style>

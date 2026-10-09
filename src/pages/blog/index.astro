@@ -1,0 +1,41 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import PostCard from '../../components/PostCard.astro';
+import { posts } from '../../lib/posts';
+const [featured, ...rest] = posts;
+---
+<Base title="Blogul lui Titus Corlățean" description="Aici găsiți gândurile mele puse pe acest blog pentru a descoperi detaliile activității mele ca parlamentar.">
+  <PageHero variant="plain">
+    <Fragment slot="title">Blog</Fragment>
+    <p>Aici găsiți gândurile mele puse pe acest blog pentru a descoperi detaliile activității mele ca parlamentar.</p>
+  </PageHero>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="blog-featured">
+        <PostCard post={featured} featured />
+      </div>
+      <div class="blog-grid">
+        {rest.map((p) => <PostCard post={p} />)}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .blog-featured { padding-bottom: clamp(3rem, 6vw, 5rem); margin-bottom: clamp(3rem, 6vw, 5rem); border-bottom: 1px solid var(--line); }
+  .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3.5rem 2.2rem; }
+  @media (max-width: 960px) { .blog-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 620px) {
+    .blog-grid { grid-template-columns: 1fr; gap: 0; }
+    .blog-grid :global(.pc) { padding: 1rem 0; border-top: 1px solid var(--line); }
+    .blog-grid :global(.pc__link) { grid-template-columns: 104px 1fr; gap: 1rem; align-items: start; }
+    .blog-grid :global(.pc__media) { aspect-ratio: 1; border-radius: var(--r-sm); }
+    .blog-grid :global(.pc__title) { font-size: 1.02rem; margin: 0.3rem 0 0; }
+    .blog-grid :global(.pc__date) { font-size: 0.74rem; }
+    .blog-grid :global(.pc__more) { display: none; }
+    .blog-grid :global(.pc__placeholder img) { width: 34%; }
+    .blog-featured { padding-bottom: 1.6rem; margin-bottom: 0.4rem; border-bottom: 0; }
+  }
+</style>

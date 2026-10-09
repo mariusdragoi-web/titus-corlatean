@@ -1,0 +1,157 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import NewsletterSignup from '../components/NewsletterSignup.astro';
+import nl from '../data/newsletter.json';
+
+const [label, issue, intro] = nl.header.map((t: string) => t.replace(/ /g, ' '));
+const strip = (h: string) => h.replace(/<[^>]+>/g, '').trim();
+
+// Emisiuni: perechi titlu + embed
+const shows: { title: string; embed: string }[] = [];
+let showsTitle = '';
+for (const b of nl.shows) {
+  if (b.startsWith('<div class="embed')) shows[shows.length - 1].embed = b;
+  else if (!showsTitle) showsTitle = strip(b);
+  else shows.push({ title: strip(b), embed: '' });
+}
+const campaignKicker = strip(nl.campaign[0]);
+const campaignTitle = strip(nl.campaign[1]);
+const campaignHref = nl.campaign[2]?.match(/href="([^"]+)"/)?.[1] ?? '/team-1';
+const campaignLabel = strip(nl.campaign[2] ?? 'Descoperă mai mult');
+
+const slug = (s: string) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60);
+---
+<Base title="Newsletter" description="Dacă vrei să rămânem conectați, fără artificii, am creat un canal clar și direct: newsletterul lunar. O fereastră deschisă spre ceea ce fac și ceea ce cred." image={nl.hero}>
+  <section class="nl-hero dark">
+    <img class="nl-hero__bg" src={nl.hero} alt="" fetchpriority="high" />
+    <div class="wrap nl-hero__inner">
+      <p class="eyebrow">{label}</p>
+      <h1 class="display">{issue}</h1>
+      <p class="nl-hero__intro quote-style">{intro}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap nl-layout">
+      <nav class="nl-toc" aria-label="Cuprins" data-scroll-fade>
+        <p class="nl-toc__h">{issue}</p>
+        <ol>
+          {nl.entries.map((e) => <li><a href={`#${slug(e.title)}`}><span>{e.meta}</span>{e.title}</a></li>)}
+        </ol>
+      </nav>
+
+      <div class="nl-entries">
+        <details class="nl-mtoc">
+          <summary>Cuprins <span>({nl.entries.length})</span></summary>
+          <ol>
+            {nl.entries.map((e) => <li><a href={`#${slug(e.title)}`}><span>{e.meta}</span>{e.title}</a></li>)}
+          </ol>
+        </details>
+        {nl.entries.map((e) => (
+          <article class="nl-entry" id={slug(e.title)}>
+            <p class="nl-entry__meta">{e.meta}</p>
+            <h2 class="nl-entry__title">{e.title}</h2>
+            <div class="prose nl-entry__body" data-clamp style="--clamp: 24rem" set:html={e.html} />
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="campaign dark">
+    <div class="wrap campaign__inner">
+      <p class="eyebrow">{campaignKicker}</p>
+      <h2 class="campaign__title">{campaignTitle}</h2>
+      <a href={campaignHref} class="btn">{campaignLabel} <Icon name="arrow" /></a>
+    </div>
+  </section>
+
+  <section class="section tone">
+    <div class="wrap">
+      <h2 class="h2 rule shows__title">{showsTitle}</h2>
+      <div class="shows">
+        {shows.map((s) => (
+          <div class="show">
+            <h3 class="show__title">{s.title}</h3>
+            <Fragment set:html={s.embed} />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <NewsletterSignup />
+</Base>
+
+<style>
+  .nl-hero { position: relative; overflow: hidden; isolation: isolate; }
+  .nl-hero__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; filter: saturate(0.6) blur(2px); transform: scale(1.03); }
+  .nl-hero::after { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(120deg, rgba(166, 17, 17, 0.75), rgba(0, 0, 0, 0.92) 60%); }
+  .nl-hero__inner { padding-block: clamp(4rem, 10vw, 8rem); }
+  .nl-hero__intro { font-size: clamp(1.15rem, 1rem + 0.7vw, 1.6rem); max-width: 34ch; margin-top: 1rem; color: var(--on-dark); }
+
+  .nl-layout { display: grid; grid-template-columns: 300px 1fr; gap: clamp(2.5rem, 6vw, 6rem); align-items: start; }
+  .nl-toc { position: sticky; top: 120px; max-height: calc(100vh - 150px); overflow-y: auto; }
+  .nl-toc__h { font-family: var(--display); font-weight: 800; font-size: 0.8rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--red); margin-bottom: 1rem; }
+  .nl-toc ol { list-style: none; margin: 0; padding: 0; border-left: 3px solid var(--ink); }
+  .nl-toc a { display: grid; gap: 0.1rem; padding: 0.55rem 0 0.55rem 1rem; text-decoration: none; font-size: 0.9rem; line-height: 1.35; color: var(--text-soft); transition: color 0.2s; }
+  .nl-toc a span { font-size: 0.75rem; font-weight: 700; color: var(--text-soft); }
+  .nl-toc a:hover { color: var(--text); }
+
+  .nl-entry { padding-bottom: clamp(3rem, 6vw, 4.5rem); margin-bottom: clamp(3rem, 6vw, 4.5rem); border-bottom: 1px solid var(--line); scroll-margin-top: 110px; }
+  .nl-entry:last-child { border-bottom: 0; margin-bottom: 0; }
+  .nl-entry__meta { font-family: var(--display); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--red); margin-bottom: 0.7rem; }
+  .nl-entry__title { font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.4rem); line-height: 1.15; margin-bottom: 1.5rem; }
+  .nl-entry__title::after { content: ''; display: block; width: 72px; height: 5px; background: var(--ink); margin-top: 0.5em; }
+  .nl-entry__body :global(figure) { margin: 1.8em 0; }
+
+  .campaign { background: var(--red); }
+  .campaign__inner { padding-block: clamp(3.5rem, 8vw, 6rem); }
+  .campaign .eyebrow { color: #fff; }
+  .campaign .eyebrow::before { background: #fff; }
+  .campaign__title { font-size: clamp(1.8rem, 1.2rem + 2.4vw, 3.2rem); max-width: 22ch; margin-bottom: 2rem; }
+  .campaign .btn { --bg: #000; border-color: #000; }
+  .campaign .btn:hover { --bg: #fff; --fg: #000; border-color: #fff; }
+
+  .shows__title { margin-bottom: 2.5rem; }
+  .shows { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2.5rem 2rem; align-items: start; }
+  .show__title { font-size: 1.1rem; margin-bottom: 0.9rem; }
+  .show :global(.embed) { margin: 0; }
+  .show :global(.embed--fb-post) { max-width: none; }
+
+  .nl-mtoc { display: none; }
+  @media (max-width: 960px) {
+    .nl-layout { grid-template-columns: 1fr; }
+    .nl-toc { display: none; }
+    /* Pe telefon cuprinsul e o listă pliată la începutul articolelor */
+    .nl-mtoc { display: block; margin-bottom: 2rem; border: 1px solid var(--line); border-left: 4px solid var(--red); border-radius: 0 var(--r-md) var(--r-md) 0; background: var(--paper-2); }
+    .nl-mtoc summary { display: flex; align-items: center; gap: 0.4rem; min-height: 50px; padding: 0 1rem; cursor: pointer; list-style: none; font-family: var(--display); font-weight: 800; font-size: 1rem; }
+    .nl-mtoc summary::-webkit-details-marker { display: none; }
+    .nl-mtoc summary span { color: var(--text-soft); font-weight: 700; }
+    .nl-mtoc summary::after { content: '+'; margin-left: auto; font-size: 1.4rem; font-weight: 400; line-height: 1; }
+    .nl-mtoc[open] summary::after { content: '−'; }
+    .nl-mtoc ol { list-style: none; margin: 0; padding: 0 1rem 0.6rem; }
+    .nl-mtoc li + li { border-top: 1px solid var(--line); }
+    .nl-mtoc a { display: grid; gap: 0.1rem; padding: 0.6rem 0; text-decoration: none; font-size: 0.95rem; line-height: 1.35; color: var(--text); }
+    .nl-mtoc a span { font-size: 0.75rem; font-weight: 700; color: var(--text-soft); }
+  }
+  @media (max-width: 760px) {
+    .nl-entry { padding-bottom: 2rem; margin-bottom: 2rem; }
+    .nl-entry__title { font-size: 1.35rem; margin-bottom: 1rem; }
+    .nl-entry__body :global(figure) { margin: 0 0 1.2em; }
+    .nl-entry__body :global(figure img) { aspect-ratio: 16 / 10; object-fit: cover; max-height: none; }
+    .nl-entry__body :global(.embed--vertical) { max-width: 240px; }
+    .shows { grid-template-columns: 1fr; gap: 0; }
+    .show { display: grid; grid-template-columns: 1fr; padding: 0.8rem 0; border-top: 1px solid var(--line); }
+    .show:last-child { border-bottom: 1px solid var(--line); }
+    .show__title { font-size: 1rem; margin: 0 0 0.6rem; }
+    .show :global(.embed:not(.is-loaded)) { aspect-ratio: auto; min-height: 0; height: 56px; max-width: none; border-radius: var(--r-sm); }
+    .show :global(.embed:not(.is-loaded) .embed__btn) { flex-direction: row; justify-content: flex-start; gap: 0.75rem; padding: 0 0.8rem; }
+    .show :global(.embed:not(.is-loaded) .embed__icon) { width: 36px; height: 36px; margin: 0; flex: none; }
+    .show :global(.embed:not(.is-loaded) .embed__icon::after) { left: 14px; top: 11px; border-left-width: 11px; border-top-width: 7px; border-bottom-width: 7px; }
+    .show :global(.embed:not(.is-loaded) .embed__label) { font-size: 0.92rem; }
+    .show :global(.embed:not(.is-loaded) .embed__note) { margin-left: auto; }
+    .nl-hero__inner { padding-block: 2.6rem 3rem; }
+  }
+</style>

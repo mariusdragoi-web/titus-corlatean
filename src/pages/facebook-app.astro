@@ -1,0 +1,20 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import { SITE } from '../config';
+---
+<Base title="Facebook app" description="Politica de confidențialitate pentru aplicația Facebook a site-ului titus-corlatean.ro." noindex>
+  <PageHero variant="plain">
+    <Fragment slot="title">Politica de Confidențialitate</Fragment>
+  </PageHero>
+  <section class="section">
+    <div class="wrap--narrow prose">
+      <p>Acest website conține o aplicație care procesează comentarii de pe Pagini Facebook în scopuri de automatizare.</p>
+      <p>Aplicația primește exclusiv date disponibile public de pe Pagini Facebook, cum ar fi comentarii și metadatele asociate acestora.</p>
+      <p>Nu sunt stocate permanent date cu caracter personal și nu sunt vândute sau partajate cu terțe părți.</p>
+      <p>Datele sunt utilizate exclusiv pentru declanșarea unor fluxuri automate.</p>
+      <p>Pentru întrebări sau solicitări, ne puteți contacta la:</p>
+      <p><a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
+    </div>
+  </section>
+</Base>

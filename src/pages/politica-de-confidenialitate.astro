@@ -1,0 +1,19 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import privacy from '../data/privacy.json';
+---
+<Base title="Politica de confidențialitate" description="Politica de confidențialitate a site-ului titus-corlatean.ro.">
+  <PageHero variant="plain">
+    <Fragment slot="title">Politică de confidențialitate</Fragment>
+    <p>{privacy.updated}</p>
+  </PageHero>
+  <section class="section">
+    <div class="wrap--narrow prose legal" set:html={privacy.html} />
+  </section>
+</Base>
+
+<style>
+  .legal { font-size: 1.02rem; }
+  .legal :global(h2) { font-size: clamp(1.3rem, 1.15rem + 0.6vw, 1.7rem); }
+</style>

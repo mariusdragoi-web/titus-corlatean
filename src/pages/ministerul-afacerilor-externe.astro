@@ -1,0 +1,45 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import CareerNext from '../components/CareerNext.astro';
+---
+<Base title="Ministerul Afacerilor Externe" description="Ca ministru de Externe, Titus Corlățean a întărit poziția României în NATO, UE și a sprijinit Moldova și Ucraina." image="/images/titus-onu.webp">
+  <PageHero eyebrow="Carieră" image="/images/titus-onu.webp" imageAlt="Titus Corlățean la tribuna ONU" position="50% 30%">
+    <Fragment slot="title">Ministerul Afacerilor Externe</Fragment>
+    <p>Ca <strong>Ministru de Externe</strong> (2012–2014), am consolidat poziția României în NATO și UE, susținând ferm integritatea Ucrainei în contextul crizei din 2014 și promovând răspunsuri coordonate internaționale. Am sprijinit parcursul european al Republicii Moldova și am întărit Parteneriatul Strategic cu SUA, inclusiv în domeniile militar, economic și energetic.</p>
+  </PageHero>
+
+  <section class="section">
+    <div class="wrap mae">
+      <figure class="mae__media reveal">
+        <img src="/images/9041894790_6348ed9b27_o.webp" alt="Titus Corlățean, ministrul Afacerilor Externe, împreună cu omologul francez Laurent Fabius" loading="lazy" width="1800" height="1200" />
+        <figcaption class="photo-cap">Ministrul Afacerilor Externe al României, Titus Corlățean, împreună cu omologul francez, Laurent Fabius</figcaption>
+      </figure>
+      <div class="mae__text">
+        <blockquote class="mae__quote reveal">
+          <p>Am promovat și susținut interesele externe ale României în una dintre cele mai dificile perioade pentru România. Împreună cu echipa formată în jurul meu am reușit să punem politica externă a României pe o traiectorie ascendentă prin dezvoltarea relațiilor euro-atlantice.</p>
+        </blockquote>
+        <p class="mae__p reveal">Eforturile noastre s-au concentrat în zona securității naționale alături de <strong>NATO</strong>, integrarea europeană și aderarea la <strong>Schengen</strong>, iar nu în ultimul rând, reprezentarea cu mândrie a tuturor <strong>românilor</strong> din diaspora.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="mae-band">
+    <img src="/images/mae-sediu.webp" alt="" loading="lazy" />
+  </section>
+
+  <CareerNext current="/ministerul-afacerilor-externe" />
+</Base>
+
+<style>
+  .mae { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(2.5rem, 6vw, 6rem); align-items: center; }
+  .mae__media { margin: 0; }
+  .mae__media img { width: 100%; border-radius: var(--r-lg); box-shadow: var(--shadow); }
+  .mae__quote { margin: 0 0 2rem; padding: 2rem 2.2rem; background: var(--ink); color: var(--on-dark); }
+  .mae__quote p { margin: 0; font-family: var(--display); font-style: italic; font-size: clamp(1.1rem, 1rem + 0.4vw, 1.3rem); line-height: 1.6; }
+  .mae__p { font-size: 1.12rem; line-height: 1.7; color: var(--text-soft); }
+  .mae__p strong { color: var(--text); }
+  .mae-band { height: clamp(260px, 38vw, 480px); overflow: hidden; }
+  .mae-band img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 45%; filter: saturate(0.8); }
+  @media (max-width: 860px) { .mae { grid-template-columns: 1fr; } }
+</style>

@@ -1,0 +1,78 @@
+---
+import Icon from './Icon.astro';
+import { FOOTER_LINKS, NAV, SOCIAL, SITE } from '../config';
+const career = NAV.find((n) => n.children)?.children ?? [];
+const year = new Date().getFullYear();
+// Pe telefon footerul arată doar linkurile care nu sunt deja în meniul de sus
+const inMenu = new Set(NAV.flatMap((n) => (n.children ? n.children.map((c) => c.href) : [n.href])));
+---
+<footer class="site-footer dark">
+  <div class="wrap">
+    <div class="site-footer__top">
+      <div class="site-footer__brand">
+        <img src="/images/logo-alb.webp" alt="Titus Corlățean" width="1000" height="394" loading="lazy" />
+        <div class="site-footer__social">
+          <a href={SOCIAL.facebook} target="_blank" rel="noopener" aria-label="Facebook"><Icon name="facebook" /></a>
+          <a href={SOCIAL.tiktok} target="_blank" rel="noopener" aria-label="TikTok"><Icon name="tiktok" /></a>
+          <a href={SOCIAL.x} target="_blank" rel="noopener" aria-label="X (Twitter)"><Icon name="x" /></a>
+          <a href={`mailto:${SITE.email}`} aria-label="E-mail"><Icon name="mail" /></a>
+        </div>
+      </div>
+      <nav class="site-footer__col site-footer__col--career" aria-label="Carieră">
+        <p class="site-footer__h">Carieră</p>
+        <ul>{career.map((c) => <li><a href={c.href}>{c.label}</a></li>)}</ul>
+      </nav>
+      <nav class="site-footer__col" aria-label="Linkuri utile">
+        <p class="site-footer__h">Site</p>
+        <ul>
+          <li class="f-dup"><a href="/povestea-mea">Povestea mea</a></li>
+          {FOOTER_LINKS.map((l) => <li class:list={{ 'f-dup': inMenu.has(l.href) }}><a href={l.href}>{l.label}</a></li>)}
+        </ul>
+      </nav>
+    </div>
+    <div class="site-footer__bottom">
+      <p>© {year} Titus Corlățean<span class="f-long">. Toate drepturile rezervate.</span></p>
+      <p>Website administrat și creat de <a href="https://grundi.ro" target="_blank" rel="noopener">grundi.ro</a></p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer { padding: clamp(4rem, 8vw, 6rem) 0 2rem; position: relative; overflow: hidden; background: var(--ink-2); border-top: 1px solid var(--line-dark); }
+  .site-footer::before {
+    content: ''; position: absolute; inset: 0 0 auto; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--red) 30%, var(--red) 70%, transparent);
+  }
+  .site-footer__top { display: grid; grid-template-columns: 1.3fr 1fr 0.8fr; gap: 3rem; padding-bottom: 3.5rem; border-bottom: 1px solid var(--line-dark); }
+  .site-footer__brand img { width: 190px; margin-bottom: 2rem; }
+  .site-footer__social { display: flex; gap: 0.5rem; }
+  .site-footer__social a { display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid var(--line-dark); border-radius: 50%; color: var(--on-dark-soft); transition: all 0.25s var(--ease); }
+  .site-footer__social a:hover { background: var(--red); border-color: var(--red); color: #fff; transform: translateY(-2px); }
+  .site-footer__social :global(svg) { width: 18px; height: 18px; }
+  .site-footer__h { font-size: 0.8rem; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 700; color: var(--on-dark); margin-bottom: 1.2rem; }
+  .site-footer__col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.6rem; }
+  .site-footer__col li { line-height: 1.4; }
+  .site-footer__col a { color: var(--on-dark-soft); text-decoration: none; font-size: 0.95rem; transition: color 0.2s; }
+  .site-footer__col a:hover { color: #fff; }
+  .site-footer__bottom { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; padding-top: 1.8rem; font-size: 0.85rem; color: var(--on-dark-soft); }
+  .site-footer__bottom p { margin: 0; }
+  .site-footer__bottom a { color: var(--on-dark); text-underline-offset: 3px; }
+  @media (max-width: 860px) {
+    .site-footer__top { grid-template-columns: 1fr 1fr; }
+    .site-footer__brand { grid-column: 1 / -1; }
+  }
+  /* Telefon: doar esențialul — logo + iconițe, linkurile care nu sunt în meniu, semnătura */
+  @media (max-width: 520px) {
+    .site-footer { padding: 1.5rem 0 1.1rem; }
+    .site-footer__top { display: block; padding-bottom: 0.9rem; }
+    .site-footer__brand { display: flex; align-items: center; justify-content: space-between; gap: 0.8rem; margin-bottom: 0.9rem; }
+    .site-footer__brand img { width: 104px; margin: 0; }
+    .site-footer__social { gap: 0.35rem; }
+    .site-footer__social a { width: 36px; height: 36px; }
+    .site-footer__social :global(svg) { width: 16px; height: 16px; }
+    .site-footer__col--career, .site-footer__h, .f-dup, .f-long { display: none; }
+    .site-footer__col ul { display: flex; flex-wrap: wrap; gap: 0 1.1rem; }
+    .site-footer__col a { display: block; padding-block: 0.35rem; font-size: 0.86rem; }
+    .site-footer__bottom { flex-direction: row; justify-content: space-between; gap: 0.3rem 1rem; padding-top: 0.8rem; font-size: 0.76rem; }
+  }
+</style>

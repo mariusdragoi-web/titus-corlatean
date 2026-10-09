@@ -1,0 +1,79 @@
+---
+export interface TimelineItem {
+  date: string;
+  title?: string;
+  subtitle?: string;
+  text?: string;
+  list?: string[];
+  image?: string;
+  href?: string;
+}
+interface Props {
+  items: TimelineItem[];
+  dark?: boolean;
+  /** Pe mobil arată primele 3 intrări + „Vezi toate” */
+  short?: boolean;
+}
+const { items, short = false } = Astro.props;
+
+// Intervale scrise uniform: „2018–2020” între ani, „mai 2012 – august 2012” între date compuse
+const fmtDate = (d: string) => {
+  const parts = d.replace(/\s+/g, ' ').trim().split(/\s*[-–]\s*/);
+  if (parts.length !== 2) return parts.join('–');
+  const [a, b] = parts;
+  return /^\d{4}$/.test(a) && /^\d{4}$/.test(b) ? `${a}–${b}` : `${a} – ${b}`;
+};
+---
+<ol class:list={['tl', { 'm-more': short }]}>
+  {items.map((it) => (
+    <li class:list={['tl__item reveal', { 'tl__item--img': it.image }]}>
+      <div class="tl__date">{fmtDate(it.date)}</div>
+      <div class="tl__body">
+        {it.title && <h3 class="tl__title">{it.href ? <a href={it.href}>{it.title}</a> : it.title}</h3>}
+        {it.subtitle && <p class="tl__sub">{it.subtitle}</p>}
+        {it.text && <p class="tl__text">{it.text}</p>}
+        {it.list && <ul class="tl__list">{it.list.map((l) => <li>{l}</li>)}</ul>}
+      </div>
+      {it.image && <img class="tl__img" src={it.image} alt="" loading="lazy" />}
+    </li>
+  ))}
+</ol>
+
+<style>
+  .tl { list-style: none; margin: 0; padding: 0; position: relative; }
+  .tl::before { content: ''; position: absolute; left: 11.5rem; top: 0.6rem; bottom: 0.6rem; width: 1px; background: var(--line); }
+  .tl__item { position: relative; display: grid; grid-template-columns: 11.5rem 1fr; column-gap: 3rem; padding: 0 0 3rem; }
+  .tl__item--img { grid-template-columns: 11.5rem 1fr 168px; }
+  .tl__item::before {
+    content: ''; position: absolute; left: calc(11.5rem - 6px); top: 0.55rem;
+    width: 13px; height: 13px; border-radius: 50%;
+    background: var(--paper); border: 2px solid var(--red);
+    transition: background-color 0.3s;
+  }
+  .tl__item:hover::before { background: var(--red); }
+  .tl__date { font-size: 0.82rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--red); padding-top: 0.25rem; padding-right: 1.5rem; font-variant-numeric: tabular-nums; }
+  .tl__body { min-width: 0; }
+  .tl__title { font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.6rem); margin-bottom: 0.35em; line-height: 1.2; }
+  .tl__title a { text-decoration: none; background: linear-gradient(currentColor, currentColor) 0 100% / 0 2px no-repeat; transition: background-size 0.3s var(--ease), color 0.2s; }
+  .tl__title a:hover { color: var(--red); background-size: 100% 2px; }
+  .tl__sub { font-style: italic; color: var(--text-soft); margin-bottom: 0.6em; }
+  .tl__text { color: var(--text-soft); max-width: 64ch; margin: 0; }
+  .tl__list { margin: 0; padding-left: 1.1em; color: var(--text-soft); display: grid; gap: 0.6em; }
+  .tl__list li::marker { color: var(--red); }
+  .tl__img { width: 168px; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--r-md); margin-top: 0.3rem; }
+  :global(.dark) .tl::before { background: var(--line-dark); }
+  :global(.dark) .tl__item::before { background: var(--ink); border-color: var(--red); }
+  :global(.dark) .tl__date { color: var(--on-dark); }
+  :global(.dark) .tl__text, :global(.dark) .tl__list, :global(.dark) .tl__sub { color: var(--on-dark-soft); }
+
+  @media (max-width: 760px) {
+    .tl::before { left: 6px; }
+    .tl__item, .tl__item--img { grid-template-columns: 1fr; padding-left: 2.2rem; }
+    .tl__item::before { left: 0; }
+    .tl__date { padding: 0 0 0.4rem; }
+    .tl__img { width: 100%; max-width: 360px; margin-top: 1rem; aspect-ratio: 16 / 9; }
+    .tl__item { padding-bottom: 1.8rem; }
+    .tl__title { font-size: 1.08rem; }
+    .tl__text, .tl__list { font-size: 0.95rem; }
+  }
+</style>

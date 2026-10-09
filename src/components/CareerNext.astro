@@ -1,0 +1,39 @@
+---
+import Icon from './Icon.astro';
+import { CAREER } from '../config';
+interface Props { current: string }
+const { current } = Astro.props;
+const others = CAREER.filter((c) => c.href !== current);
+---
+<nav class="cnext dark" aria-label="Alte etape ale carierei">
+  <div class="wrap">
+    <p class="eyebrow">Carieră</p>
+    <ul>
+      {others.map((c) => (
+        <li>
+          <a href={c.href}>
+            <span class="cnext__years">{c.years}</span>
+            <span class="cnext__label">{c.label}</span>
+            <Icon name="arrow" class="cnext__icon" />
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</nav>
+
+<style>
+  .cnext { padding-block: clamp(3.5rem, 7vw, 5.5rem); border-bottom: 1px solid var(--line-dark); }
+  ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  a {
+    display: grid; grid-template-columns: 1fr auto; gap: 0.5rem 1rem; align-items: end; height: 100%;
+    padding: 1.6rem; border: 1px solid var(--line-dark); border-radius: var(--r-md);
+    text-decoration: none; transition: background-color 0.3s var(--ease), border-color 0.3s;
+  }
+  a:hover { background: var(--ink-3); border-color: var(--red); }
+  .cnext__years { grid-column: 1 / -1; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--on-dark); }
+  .cnext__label { font-family: var(--display); font-size: 1.35rem; line-height: 1.2; }
+  .cnext :global(.cnext__icon) { width: 22px; height: 22px; transition: transform 0.3s var(--ease); }
+  a:hover :global(.cnext__icon) { transform: translateX(4px); }
+  @media (max-width: 820px) { ul { grid-template-columns: 1fr; } }
+</style>

@@ -1,0 +1,138 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Timeline from '../components/Timeline.astro';
+import CareerNext from '../components/CareerNext.astro';
+import Icon from '../components/Icon.astro';
+
+// Actualizat 9 octombrie 2026, numărat din listele de activitate de pe pace.coe.int/en/members/6456/corlatean
+const stats = [
+  { n: '127', label: 'Moțiuni' },
+  { n: '175', label: 'Voturi' },
+  { n: '55', label: 'Luări de cuvânt' },
+  { n: '8', label: 'Rapoarte și avize' },
+];
+
+const functions = [
+  { date: 'din 2026', title: 'Vicepreședinte al Grupului Socialiștilor, Democraților și Verzilor (SOC)' },
+  { date: 'din 2025', title: 'Raportor al APCE pentru tragerea la răspundere a Federației Ruse pentru războiul de agresiune împotriva Ucrainei' },
+  { date: '2022–2024', title: 'Președinte al Comisiei pentru alegerea judecătorilor la Curtea Europeană a Drepturilor Omului' },
+  { date: '2020–2022', title: 'Al doilea vicepreședinte: Comisia pentru alegerea judecătorilor la Curtea Europeană a Drepturilor Omului' },
+  { date: '2018–2020', title: 'Raportor general privind abolirea pedepsei cu moartea: Comisia pentru afaceri juridice și drepturile omului' },
+  { date: '2018–2020', title: 'Prim-vicepreședinte: Comisia pentru afaceri politice și democrație' },
+  { date: '2018–2019', title: 'Membru: Comisia pentru regulament, imunități și afaceri instituționale' },
+  { date: 'din 2019', title: 'Membru titular SOC: Comisia pentru alegerea judecătorilor la Curtea Europeană a Drepturilor Omului' },
+  { date: '2017–2019', title: 'Vicepreședinte al Adunării Parlamentare din Consiliul Europei' },
+  { date: '2017–2019', title: 'Vicepreședinte al Adunării Comisia permanentă' },
+  { date: 'din 2017', title: 'Membru titular: Comisia pentru afaceri politice și democrație' },
+  { date: 'din 2017', title: 'Membru titular: Comisia pentru afaceri juridice și drepturile omului' },
+  { date: 'din 2016', title: 'Membru titular: Comisia de monitorizare' },
+];
+
+const debates = [
+  { date: 'Din 2025', image: '/images/coe-plen-1.webp', title: 'Convenția Europeană a Drepturilor Omului: 75 de ani și mai departe', subtitle: 'Raport în pregătire — Comisia pentru afaceri juridice și drepturile omului' },
+  { date: 'Iunie 2025', image: '/images/coe-intalnire.webp', title: 'Protocolul de modificare a Convenției Consiliului Europei pentru prevenirea terorismului', href: '/blog/un-moment-istoric-pentru-europa-i-o-reuit-major-pentru-romnia' },
+  { date: 'Aprilie 2025', image: '/images/coe-sediu.webp', title: 'Aspectele juridice ale aderării Uniunii Europene la Convenția Europeană a Drepturilor Omului', href: '/blog/ue-se-apropie-de-aderarea-la-cedo' },
+  { date: 'Aprilie 2022', image: '/images/consiliul-europei-plen.webp', title: 'Asigurarea responsabilității pentru doborârea zborului MH17' },
+  { date: 'Aprilie 2022', image: '/images/consiliul-europei-strasbourg.webp', title: 'Dincolo de Tratatul de la Lisabona: Consolidarea parteneriatului strategic dintre Consiliul Europei și Uniunea Europeană' },
+  { date: 'Ianuarie 2018', image: '/images/l1c4pp89wx7og.webp', title: 'Respectarea obligațiilor și angajamentelor de către Georgia' },
+  { date: 'Aprilie 2016', title: 'Procesul de pace israeliano-palestinian: rolul Consiliului Europei' },
+  { date: 'Aprilie 2015', title: 'Angajamentul reînnoit în lupta împotriva antisemitismului în Europa' },
+  { date: 'Noiembrie 2011', title: 'Angajament pentru susținerea drepturilor omului și a luptei împotriva terorismului' },
+];
+---
+<Base title="Consiliul Europei" description="Titus Corlățean apără drepturile românilor din diaspora în calitate de membru în Adunarea Consiliului Europei." image="/images/coe-plen-1.webp">
+  <PageHero eyebrow="Carieră" variant="cover" image="/images/coe-plen-1.webp" position="62% 30%">
+    <Fragment slot="title">Adunarea Parlamentară a <strong>Consiliului Europei</strong></Fragment>
+    <p>La Consiliul Europei, îmi continui angajamentul de a promova valorile democratice, de a combate corupția și de a proteja minoritățile, cu un accent deosebit pe românii din diasporă. Lupt pentru respectarea drepturilor familiilor românești expuse abuzurilor în diverse state europene, pledând cu determinare pentru justiție și sprijin adecvat în fața provocărilor cu care se confruntă.</p>
+  </PageHero>
+
+  <section class="stats">
+    <div class="wrap">
+      <ul class="stats__list">
+        {stats.map((s) => (
+          <li class="reveal"><span class="stats__n">{s.n}</span><span class="stats__l">{s.label}</span></li>
+        ))}
+      </ul>
+      <p class="stats__src">Date actualizate în octombrie 2026, din <a href="https://pace.coe.int/en/members/6456/corlatean" target="_blank" rel="noopener">profilul oficial APCE</a>.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <h2 class="h2 rule reveal fn__title">Funcțiile deținute în Adunarea Parlamentară</h2>
+      <Timeline items={functions} short />
+      <div class="fn__more reveal">
+        <a href="https://pace.coe.int/en/members/6456/corlatean" class="btn" target="_blank" rel="noopener">Descoperă mai mult! <Icon name="external" /></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="pace" aria-hidden="true">
+    <img src="/images/coe-plen-2.webp" alt="" loading="lazy" />
+  </section>
+
+  <section class="section tone">
+    <div class="wrap">
+      <h2 class="h2 rule reveal debates__title">Activitatea mea în cadrul dezbaterilor</h2>
+      <Timeline items={debates} short />
+    </div>
+  </section>
+
+  <section class="section memo dark">
+    <div class="wrap memo__grid">
+      <div class="reveal">
+        <p class="eyebrow">Un lucru memorabil</p>
+        <blockquote class="memo__quote" data-clamp style="--clamp: 9em">
+          <p>“Astăzi, în cadrul unei întâlniri extraordinare a Comitetului Miniștrilor, s-a decis că Federația Rusă nu mai este membru al Consiliului Europei după 26 de ani. Am subliniat în cadrul dezbaterilor importanța sancționării agresiunii Rusiei împotriva Ucrainei și a crimelor umanitare și faptul că este prioritară stabilirea cadrului legal pentru tragerea la răspundere a celor vinovați.”</p>
+          <footer><time datetime="2022-03-16">16 Martie 2022</time></footer>
+        </blockquote>
+      </div>
+      <figure class="memo__media reveal">
+        <img src="/images/53220_005_rus_flag_lower.webp" alt="russia flag down COE" loading="lazy" width="870" height="489" />
+      </figure>
+    </div>
+  </section>
+
+  <CareerNext current="/consiliul-europei" />
+</Base>
+
+<style>
+  .stats { background: var(--ink); color: var(--on-dark); padding-bottom: clamp(3rem, 6vw, 5rem); }
+  .stats__list { list-style: none; margin: 0; padding: 2.5rem 0 0; display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line-dark); }
+  .stats__list li { display: flex; flex-direction: column; padding-right: 2rem; }
+  .stats__list li + li { padding-left: 2rem; border-left: 1px solid var(--line-dark); }
+  .stats__n { font-family: var(--display); font-size: clamp(3.4rem, 2rem + 5vw, 6.5rem); font-weight: 800; line-height: 0.95; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
+  .stats__l { color: var(--on-dark-soft); margin-top: 0.6rem; }
+
+  .stats__src { margin: 2rem 0 0; font-size: 0.88rem; color: var(--on-dark-soft); }
+  .stats__src a { color: var(--on-dark); }
+  .fn__title { margin-bottom: 3rem; }
+  .fn__more { margin-top: 1rem; }
+  .pace { height: clamp(220px, 32vw, 420px); overflow: hidden; }
+  .pace img { width: 100%; height: 100%; object-fit: cover; object-position: 60% 35%; }
+
+  .debates__title { margin-bottom: 3rem; }
+
+  .memo__grid { display: grid; grid-template-columns: 1.3fr 0.7fr; gap: clamp(2rem, 6vw, 5rem); align-items: center; }
+  .memo__quote { margin: 0; }
+  .memo__quote p { font-family: var(--display); font-size: clamp(1.3rem, 1.1rem + 0.9vw, 1.9rem); line-height: 1.55; font-weight: 400; font-style: italic; }
+  .memo__quote footer { color: var(--on-dark); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; font-size: 0.8rem; }
+  .memo__media { margin: 0; }
+  .memo__media img { width: 100%; border-radius: var(--r-lg); }
+
+  @media (max-width: 860px) { .memo__grid { grid-template-columns: 1fr; } }
+  @media (max-width: 760px) {
+    .memo__quote p { font-size: 1.05rem; }
+    .debates__title, .fn__title { margin-bottom: 1.8rem; }
+    .fn__more { margin-top: 1.4rem; }
+  }
+  @media (max-width: 640px) {
+    .stats__list { padding-top: 1.6rem; grid-template-columns: 1fr 1fr; row-gap: 1.4rem; }
+    .stats__list li + li:nth-child(3) { padding-left: 0; border-left: 0; }
+    .stats__list li { padding-right: 0.6rem; }
+    .stats__list li + li { padding-left: 0.9rem; }
+    .stats__n { font-size: clamp(2rem, 10vw, 2.8rem); }
+    .stats__l { font-size: 0.78rem; line-height: 1.3; }
+  }
+</style>

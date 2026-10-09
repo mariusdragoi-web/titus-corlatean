@@ -1,0 +1,104 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import PostCard from '../../components/PostCard.astro';
+import { posts, formatDate, type Post } from '../../lib/posts';
+import { SITE } from '../../config';
+
+export function getStaticPaths() {
+  return posts.map((post, i) => ({
+    params: { slug: post.slug },
+    props: { post, newer: posts[i - 1] ?? null, older: posts[i + 1] ?? null },
+  }));
+}
+
+interface Props { post: Post; newer: Post | null; older: Post | null }
+const { post, newer, older } = Astro.props;
+
+// Coperta apare doar când articolul nu are deja fotografii în text (altfel ar fi dublată)
+const showHero = Boolean(post.image) && !post.html.includes('<img');
+const more = posts.filter((p) => p.slug !== post.slug).slice(0, 3);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: post.title,
+  datePublished: post.date,
+  image: post.image ? new URL(post.image, SITE.url).href : undefined,
+  author: { '@type': 'Person', '@id': `${SITE.url}/#person`, name: SITE.name, url: SITE.url },
+  mainEntityOfPage: new URL(`/blog/${post.slug}`, SITE.url).href,
+};
+---
+<Base title={post.title} description={post.summary || post.title} image={post.image ?? undefined} type="article">
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+  <article>
+    <header class="post-head dark">
+      <div class="wrap--narrow">
+        <a href="/blog" class="post-back"><Icon name="arrow-left" /> Blog</a>
+        <time datetime={post.date} class="post-date">{formatDate(post.date)}</time>
+        <h1 class="post-title">{post.title}</h1>
+      </div>
+    </header>
+
+    {showHero && (
+      <figure class="post-cover wrap">
+        <img src={post.image} alt="" fetchpriority="high" />
+      </figure>
+    )}
+
+    <div class:list={['post-body wrap--narrow prose', { 'post-body--nocover': !showHero }]} set:html={post.html} />
+
+    <nav class="post-nav wrap--narrow" aria-label="Alte articole">
+      {older ? (
+        <a href={`/blog/${older.slug}`} class="post-nav__link">
+          <span class="post-nav__dir"><Icon name="arrow-left" /> Articolul anterior</span>
+          <span class="post-nav__title">{older.title}</span>
+        </a>
+      ) : <span />}
+      {newer && (
+        <a href={`/blog/${newer.slug}`} class="post-nav__link post-nav__link--next">
+          <span class="post-nav__dir">Articolul următor <Icon name="arrow" /></span>
+          <span class="post-nav__title">{newer.title}</span>
+        </a>
+      )}
+    </nav>
+  </article>
+
+  <section class="section tone">
+    <div class="wrap">
+      <h2 class="h2 rule more__title">Activitate recentă</h2>
+      <div class="more__grid">
+        {more.map((p) => <PostCard post={p} />)}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .post-head { padding-block: clamp(3rem, 7vw, 5.5rem) clamp(5rem, 10vw, 8rem); }
+  .post-back { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--display); font-weight: 700; font-size: 0.85rem; text-decoration: none; color: var(--on-dark-soft); margin-bottom: 2.2rem; transition: color 0.2s, gap 0.2s; }
+  .post-back :global(svg) { width: 16px; height: 16px; }
+  .post-back:hover { color: #fff; gap: 0.75rem; }
+  .post-date { display: block; font-family: var(--display); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--on-dark-soft); margin-bottom: 1rem; }
+  .post-title { font-size: clamp(2rem, 1.3rem + 2.8vw, 3.6rem); line-height: 1.1; margin: 0; }
+  .post-title::after { content: ''; display: block; width: 72px; height: 5px; background: var(--on-dark); margin-top: 0.5em; }
+  .post-cover { margin: clamp(-4.5rem, -7vw, -3rem) auto 0; max-width: 1040px; }
+  .post-cover img { width: 100%; max-height: 640px; object-fit: cover; border-radius: var(--r-lg); box-shadow: var(--shadow); }
+  .post-body { padding-block: clamp(3rem, 6vw, 4.5rem); }
+  .post-body--nocover { padding-top: clamp(3rem, 6vw, 4.5rem); }
+  .post-nav { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; padding-bottom: clamp(4rem, 8vw, 6rem); }
+  .post-nav__link { display: grid; gap: 0.5rem; padding: 1.4rem; border: 1px solid var(--line); border-radius: var(--r-md); text-decoration: none; transition: border-color 0.25s, background-color 0.25s; }
+  .post-nav__link:hover { border-color: var(--red); background: var(--paper-2); }
+  .post-nav__link--next { text-align: right; justify-items: end; grid-column: 2; }
+  .post-nav__dir { display: inline-flex; align-items: center; gap: 0.4rem; font-family: var(--display); font-weight: 700; font-size: 0.8rem; color: var(--red); }
+  .post-nav__dir :global(svg) { width: 14px; height: 14px; }
+  .post-nav__title { font-weight: 900; line-height: 1.3; }
+  .more__title { margin-bottom: 2.5rem; }
+  .more__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.2rem; }
+  @media (max-width: 900px) { .more__grid { grid-template-columns: 1fr; } }
+  @media (max-width: 620px) {
+    .post-nav { grid-template-columns: 1fr; }
+    .post-nav__link--next { grid-column: 1; }
+  }
+</style>

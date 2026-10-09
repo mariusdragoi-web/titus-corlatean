@@ -1,0 +1,75 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import faq from '../data/faq.json';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a.replace(/<[^>]+>/g, '') },
+  })),
+};
+---
+<Base title="Întrebări frecvente despre Titus Corlățean" description="Găsește răspunsurile la întrebările tale despre Titus Corlățean">
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+  <PageHero variant="plain">
+    <Fragment slot="title">Întrebări frecvente <span class="faq-sub">despre Titus Corlățean</span></Fragment>
+  </PageHero>
+
+  <section class="section">
+    <div class="wrap faq">
+      <nav class="faq__index" aria-label="Lista întrebărilor" data-scroll-fade>
+        <ol>
+          {faq.map((f, i) => <li><a href={`#q${i + 1}`}>{f.q}</a></li>)}
+        </ol>
+      </nav>
+      <div class="faq__list">
+        {faq.map((f, i) => (
+          <article class="faq__item acc-item" id={`q${i + 1}`}>
+            <h2 class="faq__q"><button type="button" class="acc-btn">{f.q}<span class="acc-icon" aria-hidden="true"></span></button></h2>
+            <div class="faq__a acc-body" set:html={f.a} />
+          </article>
+        ))}
+        <div class="faq__cta">
+          <a href="/contact" class="btn">Contact <Icon name="arrow" /></a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .faq-sub { display: block; color: var(--on-dark-soft); font-weight: 600; font-size: 0.55em; letter-spacing: -0.015em; margin-top: 0.3em; }
+  .faq { display: grid; grid-template-columns: 340px 1fr; gap: clamp(2.5rem, 6vw, 6rem); align-items: start; }
+  .faq__index { position: sticky; top: 120px; max-height: calc(100vh - 150px); overflow-y: auto; padding-right: 1rem; }
+  .faq__index ol { list-style: none; margin: 0; padding: 0; counter-reset: q; display: grid; gap: 0.15rem; }
+  .faq__index li { counter-increment: q; }
+  .faq__index a {
+    display: grid; grid-template-columns: 2rem 1fr; padding: 0.38rem 0;
+    font-size: 0.92rem; line-height: 1.4; color: var(--text-soft); text-decoration: none; transition: color 0.2s;
+  }
+  .faq__index a::before { content: counter(q, decimal-leading-zero); font-family: var(--display); font-weight: 800; font-size: 0.75rem; color: var(--red); padding-top: 0.15rem; }
+  .faq__index a:hover { color: var(--text); }
+  .faq__item { padding: 2.2rem 0; border-top: 1px solid var(--line); scroll-margin-top: 110px; }
+  .faq__item:first-child { padding-top: 0; border-top: 0; }
+  .faq__q { font-family: var(--sans); font-weight: 900; font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.6rem); letter-spacing: -0.005em; line-height: 1.25; margin-bottom: 0.8rem; }
+  .faq__a { font-size: 1.06rem; line-height: 1.75; color: var(--text-soft); max-width: 68ch; }
+  .faq__a :global(p:last-child) { margin-bottom: 0; }
+  .faq__a :global(em) { color: var(--text); }
+  .faq__cta { padding-top: 2.5rem; border-top: 1px solid var(--line); }
+  @media (max-width: 960px) {
+    .faq { grid-template-columns: 1fr; }
+    .faq__index { display: none; }
+  }
+  @media (max-width: 760px) {
+    .faq__item, .faq__item:first-child { padding: 1.05rem 0; border-top: 1px solid var(--line); }
+    .faq__q { font-size: 1.05rem; margin: 0; line-height: 1.35; }
+    .faq__a { font-size: 0.98rem; padding-top: 0.8rem; }
+    .faq__cta { padding-top: 1.6rem; }
+  }
+</style>

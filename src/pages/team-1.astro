@@ -1,0 +1,32 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import videos from '../data/videos.json';
+---
+<Base title="Jurnal de campanie" description="Am decis să candidez la Președinția Partidului Social Democrat." noindex>
+  <PageHero variant="plain" eyebrow="Jurnal de campanie">
+    <Fragment slot="title">Am decis să candidez la Președinția Partidului Social Democrat</Fragment>
+  </PageHero>
+  <section class="section">
+    <div class="wrap vids">
+      {videos.map((v) => (
+        <article class="vid">
+          <div class="embed embed--vertical" data-src={v.src}>
+            <button type="button" class="embed__btn">
+              <span class="embed__icon" aria-hidden="true"></span>
+              <span class="embed__label">Redă videoclipul</span>
+              <span class="embed__note">Se încarcă de pe Facebook</span>
+            </button>
+          </div>
+          <h2 class="vid__title">{v.title}</h2>
+        </article>
+      ))}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .vids { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 3rem 2rem; }
+  .vid :global(.embed) { margin: 0 0 1rem; max-width: none; }
+  .vid__title { font-family: var(--sans); font-weight: 900; font-size: 1.15rem; line-height: 1.3; letter-spacing: 0; }
+</style>
