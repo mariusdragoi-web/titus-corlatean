@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
-import NewsletterSignup from '../components/NewsletterSignup.astro';
+import MessageSection from '../components/MessageSection.astro';
 import { SITE, SOCIAL, ELFSIGHT_FEED } from '../config';
 import { personLd } from '../lib/person';
 
@@ -78,7 +78,7 @@ const jsonLd = {
     </div>
   </section>
 
-  <NewsletterSignup />
+  <MessageSection />
 
   <!-- Activitate recentă: feed Facebook (Elfsight, ca pe site-ul vechi) -->
   <section class="feed section tone" id="activitate">

@@ -28,12 +28,12 @@ Adresele paginilor sunt identice cu cele de pe vechiul site Squarespace, deci li
 
 ## Formulare (contact și newsletter)
 
-Formularele trimit prin [Formspree](https://formspree.io), serviciu gratuit pentru site-uri statice:
+Ambele formulare trimit la un webhook Make (adresa e în `src/config.ts` → `FORMS`). Scenariul este „Site titus-corlatean.ro — formulare (contact + newsletter)”, în folderul Titus din Make:
 
-1. Creează două formulare în Formspree (Contact și Newsletter).
-2. Copiază ID-ul fiecăruia (partea de după `/f/`) în `src/config.ts` → `FORMS`.
+- **Contact:** mesajul pleacă pe e-mail la contact@titus-corlatean.ro, prin conexiunea Microsoft `titus1`. Butonul „Răspunde” scrie direct vizitatorului.
+- **Newsletter:** abonatul (și cel care bifează „Vreau să primesc noutăți” pe pagina Contact) ajunge în data store-ul „Titus — abonați newsletter”, cu adresa de e-mail ca cheie, deci fără dubluri.
 
-Până atunci, formularele afișează un mesaj că nu sunt încă active.
+Câmpul ascuns `hp` prinde roboții: dacă e completat, scenariul ignoră trimiterea.
 
 ## Publicare pe GitHub Pages
 

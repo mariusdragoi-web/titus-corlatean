@@ -184,7 +184,7 @@ if ('IntersectionObserver' in window) {
   reveals.forEach((el) => el.classList.add('is-in'));
 }
 
-// Formulare (Formspree)
+// Formulare (webhook Make, vezi FORMS în config.ts)
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 document.querySelectorAll<HTMLFormElement>('form[data-form]').forEach((form) => {
   const status = form.querySelector<HTMLElement>('.form-status');
@@ -217,11 +217,10 @@ document.querySelectorAll<HTMLFormElement>('form[data-form]').forEach((form) => 
 
     button?.setAttribute('disabled', '');
     try {
-      const res = await fetch(`https://formspree.io/f/${endpoint}`, {
-        method: 'POST',
-        body: new FormData(form),
-        headers: { Accept: 'application/json' },
-      });
+      // Trimis ca formular simplu (urlencoded), ca browserul să nu mai facă o cerere CORS preliminară
+      const data = new URLSearchParams(new FormData(form) as unknown as Record<string, string>);
+      data.set('formular', form.dataset.form || '');
+      const res = await fetch(endpoint, { method: 'POST', body: data });
       if (!res.ok) throw new Error(String(res.status));
       form.reset();
       say(form.dataset.success || 'Mesajul a fost trimis. Mulțumesc.', 'ok');

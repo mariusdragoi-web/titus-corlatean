@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
-import NewsletterSignup from '../components/NewsletterSignup.astro';
+import MessageSection from '../components/MessageSection.astro';
 import nl from '../data/newsletter.json';
 
 const [label, issue, intro] = nl.header.map((t: string) => t.replace(/ /g, ' '));
@@ -81,7 +81,7 @@ const slug = (s: string) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,
     </div>
   </section>
 
-  <NewsletterSignup />
+  <MessageSection />
 </Base>
 
 <style>

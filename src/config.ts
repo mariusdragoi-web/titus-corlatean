@@ -24,12 +24,14 @@ export const PROFILES = [
   'https://www.juridice.ro/author/titus-corlatean',
 ];
 
-// Formulare (Formspree, https://formspree.io). Creează câte un formular gratuit
-// și pune aici ID-ul (partea de după /f/ din adresa formularului, ex. "xqazbcde").
-// Cât timp sunt goale, formularele afișează un mesaj că nu sunt încă active.
+// Formulare: trimit la webhook-ul Make „titus-corlatean.ro — formulare site”, din scenariul
+// „Site titus-corlatean.ro — formulare (contact + newsletter)” (folderul Titus). Mesajele de contact
+// pleacă pe e-mail la contact@titus-corlatean.ro, abonații ajung în data store-ul „Titus — abonați newsletter”.
+// Cât timp o adresă e goală, formularul afișează un mesaj că nu este încă activ.
+const MAKE_WEBHOOK = 'https://hook.eu2.make.com/3jsthn8l6ti1fn89172w21w84ur3jt9q';
 export const FORMS = {
-  contact: '',
-  newsletter: '',
+  contact: MAKE_WEBHOOK,
+  newsletter: MAKE_WEBHOOK,
 };
 
 // Widget-ul Elfsight cu feed-ul paginii de Facebook (secțiunea „Activitate recentă” de pe prima pagină)
