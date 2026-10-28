@@ -58,3 +58,24 @@ Pentru alt host (Netlify, Cloudflare Pages, Hostinger), se publică folderul `di
 ## Foldere care nu intră în repository
 
 `poze/`, `Branding/` și `_scrape/` (copia completă a site-ului vechi: HTML, texte și pozele la rezoluție originală) sunt excluse prin `.gitignore`. Rămân doar local, ca arhivă.
+
+## De făcut
+
+### Când renunțăm la Make
+
+Formularele depind în întregime de scenariul Make „formulare v2” (verificare Turnstile, e-mail la contact@, abonări). Înainte să închidem contul Make trebuie înlocuit. Varianta aleasă: **Microsoft Forms**.
+
+1. Se creează în Forms (contul de pe titus-corlatean.ro) un formular cu Prenume, Nume, E-mail, Mesaj și bifa „Vreau să primesc noutăți și actualizări”.
+2. Răspunsurile se strâng automat în Excel (OneDrive/SharePoint); notificarea pe e-mail se activează din setările formularului.
+3. Pe site: formularele din `contact.astro` și `MessageSection.astro` se înlocuiesc cu formularul Forms încorporat; se scot Turnstile (`TURNSTILE_SITEKEY`, codul din `site.ts`), `FORMS` din `config.ts` și pagina `/confirmare-abonare`.
+4. Se exportă înainte din Make data store-ul „Titus — abonați newsletter”, apoi se șterg scenariile, webhook-urile și data store-urile Titus din Make.
+
+Compromis: formularul arată ca Microsoft Forms, nu ca restul site-ului, și dispare confirmarea abonării prin e-mail (nu mai facem newsletter, bifa rămâne doar o mențiune în Excel). Alternativa care păstrează designul: un serviciu de formulare (ex. Formspree), cu datele la ei.
+
+### Securitate (din auditul din octombrie 2026)
+
+- **SPF** (gazduire.net): `v=spf1 include:spf.protection.outlook.com ~all` în loc de `v=spf1 a mx ip4:185.165.184.2 ~all`. Acum mailurile reale trimise prin Microsoft 365 nu trec SPF.
+- **DKIM**: activat în Microsoft 365 (Defender → Email authentication → DKIM) + cele două CNAME-uri `selector1` / `selector2` la gazduire.net.
+- **DMARC**: după câteva zile fără probleme, `p=none` → `p=quarantine` → `p=reject`.
+- **tituscorlatean.ro**: serverele DNS refuză interogările, deci redirecționarea nu funcționează; de refăcut zona, apoi `v=spf1 -all` și DMARC `p=reject`.
+- **GitHub**: domeniile verificate la Pages (previne preluarea domeniului), branch protection pe `main`, 2FA pe cont.
