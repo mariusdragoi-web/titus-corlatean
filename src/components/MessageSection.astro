@@ -1,6 +1,6 @@
 ---
 import Icon from './Icon.astro';
-import { FORMS } from '../config';
+import { FORMS, TURNSTILE_SITEKEY } from '../config';
 ---
 <section class="nl snap" id="mesaj">
   <div class="wrap nl__grid reveal">
@@ -32,6 +32,8 @@ import { FORMS } from '../config';
         <label for="m-msg">Mesajul tău</label>
         <textarea id="m-msg" name="mesaj" rows="3" required></textarea>
       </div>
+
+      <div class="ts-box" data-turnstile={TURNSTILE_SITEKEY} data-theme="light"></div>
 
       <div class="nl__actions">
         <button type="submit" class="nl__submit">Trimite <Icon name="arrow" /></button>

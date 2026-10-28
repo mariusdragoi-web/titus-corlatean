@@ -28,12 +28,13 @@ Adresele paginilor sunt identice cu cele de pe vechiul site Squarespace, deci li
 
 ## Formulare (contact și newsletter)
 
-Ambele formulare trimit la un webhook Make (adresa e în `src/config.ts` → `FORMS`). Scenariul este „Site titus-corlatean.ro — formulare (contact + newsletter)”, în folderul Titus din Make:
+Ambele formulare trimit la un webhook Make (adresa e în `src/config.ts` → `FORMS`). Scenariul este „Site titus-corlatean.ro — formulare v2 (Turnstile + confirmare abonare)”, în folderul Titus din Make:
 
+- **Anti-robot:** fiecare formular are un widget [Cloudflare Turnstile](https://developers.cloudflare.com/turnstile/) (cheia publică în `src/config.ts` → `TURNSTILE_SITEKEY`). Scenariul verifică tokenul la Cloudflare cu cheia secretă, care stă doar în modulul HTTP din Make; acceptă doar tokenuri rezolvate pe `titus-corlatean.ro` / `www.titus-corlatean.ro` (widget-ul e comun pentru mai multe domenii). Dacă verificarea pică, răspunde cu 403 și nu trimite nimic.
 - **Contact:** mesajul pleacă pe e-mail la contact@titus-corlatean.ro, prin conexiunea Microsoft `titus1`. Butonul „Răspunde” scrie direct vizitatorului.
-- **Newsletter:** abonatul (și cel care bifează „Vreau să primesc noutăți” pe pagina Contact) ajunge în data store-ul „Titus — abonați newsletter”, cu adresa de e-mail ca cheie, deci fără dubluri.
+- **Newsletter (double opt-in):** cine bifează „Vreau să primesc noutăți” primește un e-mail cu un link spre `/confirmare-abonare?t=…`, valabil 48 de ore. Cererea stă în data store-ul „Titus — abonări neconfirmate”; abia după ce persoana apasă „Confirmă abonarea” adresa ajunge în „Titus — abonați newsletter”, cu e-mailul ca cheie, deci fără dubluri.
 
-Câmpul ascuns `hp` prinde roboții: dacă e completat, scenariul ignoră trimiterea.
+Câmpul ascuns `hp` prinde roboții simpli: dacă e completat, scenariul ignoră trimiterea.
 
 ## Publicare pe GitHub Pages
 

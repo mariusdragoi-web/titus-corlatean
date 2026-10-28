@@ -1,0 +1,63 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { FORMS } from '../config';
+---
+<Base title="Confirmă abonarea" noindex>
+  <section class="cf dark">
+    <div class="wrap">
+      <img src="/images/monograma-rosu.webp" alt="" width="120" height="120" class="cf__c" />
+      <!-- Confirmarea cere un click: scannerele de linkuri din e-mail deschid pagina, dar nu apasă butonul -->
+      <div data-confirm data-endpoint={FORMS.newsletter}>
+        <h1 class="display" data-title>Confirmă abonarea</h1>
+        <p class="lead" data-msg>Apasă butonul de mai jos ca să primești noutățile senatorului Titus Corlățean pe e-mail.</p>
+        <div class="cf__actions">
+          <button type="button" class="btn" data-go>Confirmă abonarea <Icon name="arrow" /></button>
+          <a href="/" class="btn btn--ghost" data-home hidden>Prima pagină</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const box = document.querySelector<HTMLElement>('[data-confirm]');
+  const title = box?.querySelector<HTMLElement>('[data-title]');
+  const msg = box?.querySelector<HTMLElement>('[data-msg]');
+  const go = box?.querySelector<HTMLButtonElement>('[data-go]');
+  const home = box?.querySelector<HTMLElement>('[data-home]');
+  const token = new URLSearchParams(location.search).get('t')?.trim() || '';
+
+  const show = (h: string, text: string, done: boolean) => {
+    if (title) title.textContent = h;
+    if (msg) msg.textContent = text;
+    if (done && go) go.hidden = true;
+    if (home) home.hidden = !done;
+  };
+
+  if (!token || !box?.dataset.endpoint) {
+    show('Link incomplet', 'Linkul de confirmare nu este complet. Deschide-l direct din e-mailul primit sau abonează-te din nou de pe pagina de contact.', true);
+  }
+
+  go?.addEventListener('click', async () => {
+    go.setAttribute('disabled', '');
+    try {
+      const body = new URLSearchParams({ formular: 'confirmare', token });
+      const res = await fetch(box!.dataset.endpoint!, { method: 'POST', body });
+      if (res.ok) show('Abonare confirmată', 'Mulțumesc! De acum vei primi noutățile pe e-mail.', true);
+      else if (res.status === 404) show('Link expirat', 'Linkul a expirat sau a fost deja folosit. Dacă vrei să te abonezi, trimite din nou cererea de pe pagina de contact.', true);
+      else throw new Error(String(res.status));
+    } catch {
+      show('Ceva n-a mers', 'Abonarea nu a putut fi confirmată acum. Încearcă din nou peste câteva minute.', false);
+    } finally {
+      go.removeAttribute('disabled');
+    }
+  });
+</script>
+
+<style>
+  .cf { min-height: 70vh; display: flex; align-items: center; padding-block: 5rem; }
+  .cf__c { width: 72px; height: auto; margin-bottom: 2rem; }
+  .cf__actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; }
+  .cf__actions [hidden] { display: none; }
+</style>

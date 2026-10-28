@@ -34,6 +34,9 @@ const ogImage = new URL(image, SITE.url).href;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- CSP minimal: fără plugin-uri, fără <base> străin, formulare doar spre site, totul pe HTTPS.
+         O listă completă de surse ar rupe ușor GA, Elfsight și Turnstile, iar GitHub Pages nu permite header-e proprii. -->
+    <meta http-equiv="Content-Security-Policy" content="object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests" />
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-90SWHFBNFV"></script>
     <script is:inline>
