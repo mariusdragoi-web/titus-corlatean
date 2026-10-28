@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
-import { FORMS, SITE, SOCIAL } from '../config';
+import { FORMS, SITE, SOCIAL, TURNSTILE_SITEKEY } from '../config';
 ---
 <Base title="Contact Titus Corlatean" description="Scrie-mi un mesaj. Contact Titus Corlățean, senator al României.">
   <section class="contact dark">
@@ -13,7 +13,8 @@ import { FORMS, SITE, SOCIAL } from '../config';
         <h1 class="contact__title rule">Scrie-mi un mesaj</h1>
 
         <form class="contact__form" data-form="contact" data-endpoint={FORMS.contact} novalidate
-          data-success="Mulțumesc pentru mesaj. Îți voi răspunde cât mai curând.">
+          data-success="Mulțumesc pentru mesaj. Îți voi răspunde cât mai curând."
+          data-success-subscribe="Mulțumesc pentru mesaj. Ți-am trimis și un e-mail: deschide linkul din el ca să confirmi abonarea la noutăți.">
           <input type="text" name="hp" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
           <div class="contact__row">
             <div class="field">
@@ -37,6 +38,7 @@ import { FORMS, SITE, SOCIAL } from '../config';
             <label for="c-msg">Mesajul tău: <span class="req">*</span></label>
             <textarea id="c-msg" name="mesaj" required></textarea>
           </div>
+          <div class="ts-box" data-turnstile={TURNSTILE_SITEKEY} data-theme="dark"></div>
           <p class="contact__legal">Datele trimise sunt folosite doar pentru a-ți răspunde. Detalii în <a href="/politica-de-confidenialitate">Politica de confidențialitate</a>.</p>
           <div>
             <button type="submit" class="btn">Trimite <Icon name="arrow" /></button>

@@ -258,6 +258,8 @@ h3, h4 { font-family: var(--sans); font-weight: 900; line-height: 1.25; letter-s
 .form-status.is-error { color: var(--red); }
 .form-status.is-ok { color: inherit; }
 .hp { position: absolute; left: -9999px; }
+/* Turnstile apare doar când Cloudflare cere o interacțiune; altfel caseta nu ocupă loc */
+.ts-box:empty { display: none; }
 
 @media (max-width: 1080px) { :root { --header-h: 68px; } }
 

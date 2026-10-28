@@ -14,7 +14,7 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
-      filter: (page) => !/\/(team-1|facebook-app|acasa|404)$/.test(page),
+      filter: (page) => !/\/(team-1|facebook-app|acasa|404|confirmare-abonare)$/.test(page),
     }),
   ],
 });

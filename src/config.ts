@@ -24,15 +24,20 @@ export const PROFILES = [
   'https://www.juridice.ro/author/titus-corlatean',
 ];
 
-// Formulare: trimit la webhook-ul Make „titus-corlatean.ro — formulare site”, din scenariul
-// „Site titus-corlatean.ro — formulare (contact + newsletter)” (folderul Titus). Mesajele de contact
-// pleacă pe e-mail la contact@titus-corlatean.ro, abonații ajung în data store-ul „Titus — abonați newsletter”.
+// Formulare: trimit la webhook-ul Make „titus-corlatean.ro — formulare site (Turnstile)”, din scenariul
+// „Site titus-corlatean.ro — formulare v2 (Turnstile + confirmare abonare)” (folderul Titus). Scenariul verifică întâi
+// tokenul Cloudflare Turnstile, apoi trimite mesajele de contact pe e-mail la contact@titus-corlatean.ro. Cererile de abonare
+// primesc un e-mail cu link spre /confirmare-abonare; abia după confirmare adresa ajunge în data store-ul „Titus — abonați newsletter”.
 // Cât timp o adresă e goală, formularul afișează un mesaj că nu este încă activ.
-const MAKE_WEBHOOK = 'https://hook.eu2.make.com/3jsthn8l6ti1fn89172w21w84ur3jt9q';
+const MAKE_WEBHOOK = 'https://hook.eu2.make.com/y48u8ydbno1vmqo5hdudsud9vppkjghs';
 export const FORMS = {
   contact: MAKE_WEBHOOK,
   newsletter: MAKE_WEBHOOK,
 };
+
+// Cheia publică (site key) Cloudflare Turnstile. Cheia secretă stă doar în scenariul Make, nu în site.
+// 1x00000000000000000000AA e cheia de test Cloudflare (trece mereu); se înlocuiește cu cheia reală a widget-ului.
+export const TURNSTILE_SITEKEY = '1x00000000000000000000AA';
 
 // Widget-ul Elfsight cu feed-ul paginii de Facebook (secțiunea „Activitate recentă” de pe prima pagină)
 export const ELFSIGHT_FEED = '3bb0b266-ccaa-4e19-9c3d-ee6cc1e321ef';

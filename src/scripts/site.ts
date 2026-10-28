@@ -184,6 +184,24 @@ if ('IntersectionObserver' in window) {
   reveals.forEach((el) => el.classList.add('is-in'));
 }
 
+// Cloudflare Turnstile (verificarea anti-robot a formularelor): scriptul se încarcă abia când un formular se apropie de ecran
+type Turnstile = {
+  render(el: HTMLElement, opts: Record<string, unknown>): string;
+  getResponse(id: string): string | undefined;
+  reset(id: string): void;
+};
+const w = window as Window & { turnstile?: Turnstile; onTurnstile?: () => void };
+let turnstileReady: Promise<Turnstile> | undefined;
+const loadTurnstile = () =>
+  (turnstileReady ??= new Promise<Turnstile>((resolve, reject) => {
+    w.onTurnstile = () => (w.turnstile ? resolve(w.turnstile) : reject());
+    const s = document.createElement('script');
+    s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onTurnstile';
+    s.async = true;
+    s.onerror = () => { turnstileReady = undefined; s.remove(); reject(); };
+    document.head.appendChild(s);
+  }));
+
 // Formulare (webhook Make, vezi FORMS în config.ts)
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 document.querySelectorAll<HTMLFormElement>('form[data-form]').forEach((form) => {
@@ -194,6 +212,46 @@ document.querySelectorAll<HTMLFormElement>('form[data-form]').forEach((form) => 
     status.textContent = msg;
     status.className = `form-status is-${kind}`;
   };
+
+  // Widget-ul Turnstile al formularului. Tokenul vine asincron; la trimitere îl așteptăm câteva secunde dacă nu e gata.
+  const box = form.querySelector<HTMLElement>('[data-turnstile]');
+  let widget: string | undefined;
+  let mounted: Promise<void> | undefined;
+  let onToken: ((token: string) => void) | undefined;
+  const mount = () =>
+    (mounted ??= loadTurnstile()
+      .then((ts) => {
+        widget = ts.render(box!, {
+          sitekey: box!.dataset.turnstile,
+          'response-field-name': 'ts',
+          theme: box!.dataset.theme || 'auto',
+          size: 'flexible',
+          language: 'ro',
+          appearance: 'interaction-only',
+          callback: (token: string) => { onToken?.(token); onToken = undefined; },
+        });
+      })
+      .catch(() => { mounted = undefined; }));
+  const token = async () => {
+    if (!box) return '';
+    await mount();
+    if (!widget || !w.turnstile) return '';
+    const ready = w.turnstile.getResponse(widget);
+    if (ready) return ready;
+    return new Promise<string>((resolve) => {
+      onToken = resolve;
+      setTimeout(() => resolve(w.turnstile?.getResponse(widget!) || ''), 12000);
+    });
+  };
+  if (box) {
+    if ('IntersectionObserver' in window) {
+      const tio = new IntersectionObserver((entries) => {
+        if (entries.some((e) => e.isIntersecting)) { tio.disconnect(); mount(); }
+      }, { rootMargin: '600px 0px' });
+      tio.observe(form);
+    }
+    form.addEventListener('focusin', () => mount(), { once: true });
+  }
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -217,16 +275,29 @@ document.querySelectorAll<HTMLFormElement>('form[data-form]').forEach((form) => 
 
     button?.setAttribute('disabled', '');
     try {
+      const ts = await token();
+      if (box && !ts) {
+        say('Verificarea anti-robot nu s-a putut încărca. Reîncarcă pagina sau scrie-ne la contact@titus-corlatean.ro.', 'error');
+        return;
+      }
       // Trimis ca formular simplu (urlencoded), ca browserul să nu mai facă o cerere CORS preliminară
       const data = new URLSearchParams(new FormData(form) as unknown as Record<string, string>);
       data.set('formular', form.dataset.form || '');
+      if (ts) data.set('ts', ts);
+      const subscribed = data.get('abonare_newsletter') === 'da';
       const res = await fetch(endpoint, { method: 'POST', body: data });
+      if (res.status === 403) {
+        say('Verificarea anti-robot a eșuat. Reîncarcă pagina și încearcă din nou.', 'error');
+        return;
+      }
       if (!res.ok) throw new Error(String(res.status));
       form.reset();
-      say(form.dataset.success || 'Mesajul a fost trimis. Mulțumesc.', 'ok');
+      say((subscribed && form.dataset.successSubscribe) || form.dataset.success || 'Mesajul a fost trimis. Mulțumesc.', 'ok');
     } catch {
       say('Mesajul nu a putut fi trimis. Încearcă din nou peste câteva minute.', 'error');
     } finally {
+      // Un token Turnstile se poate folosi o singură dată
+      if (widget) w.turnstile?.reset(widget);
       button?.removeAttribute('disabled');
     }
   });
