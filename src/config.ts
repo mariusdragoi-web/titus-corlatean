@@ -36,8 +36,8 @@ export const FORMS = {
 };
 
 // Cheia publică (site key) Cloudflare Turnstile. Cheia secretă stă doar în scenariul Make, nu în site.
-// 1x00000000000000000000AA e cheia de test Cloudflare (trece mereu); se înlocuiește cu cheia reală a widget-ului.
-export const TURNSTILE_SITEKEY = '1x00000000000000000000AA';
+// Pentru teste locale (localhost) se poate folosi temporar cheia de test Cloudflare 1x00000000000000000000AA.
+export const TURNSTILE_SITEKEY = '0x4AAAAAAFpZPCSZ0r3ib9le';
 
 // Widget-ul Elfsight cu feed-ul paginii de Facebook (secțiunea „Activitate recentă” de pe prima pagină)
 export const ELFSIGHT_FEED = '3bb0b266-ccaa-4e19-9c3d-ee6cc1e321ef';
